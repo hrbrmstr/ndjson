@@ -6,6 +6,9 @@ output: rmarkdown::github_document
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
+The goal is to create a completely "flat" `data.frame`-like structure from ndjson
+records.
+
 The following functions are implemented:
 
 - `stream_in`:	Stream in JSON from a character vector
@@ -24,17 +27,30 @@ options(width=120)
 
 ### Usage
 
-```{r}
+```{r message=FALSE}
 library(ndjson)
+library(microbenchmark)
 
 # current verison
 packageVersion("ndjson")
+
+sample_data <- readr::read_lines("http://httpbin.org/stream/100")
+length(sample_data)
+
+dplyr::glimpse(ndjson::stream_in(sample_data))
+
+dplyr::glimpse(jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE))
+
+microbenchmark(
+  ndjson={ ndjson::stream_in(sample_data) },
+  jsonlite={ jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE) }
+)
 
 ```
 
 ### Test Results
 
-```{r}
+```{r message=FALSE}
 library(ndjson)
 library(testthat)
 

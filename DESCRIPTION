@@ -1,0 +1,29 @@
+Package: ndjson
+Type: Package
+Title: Wicked-fast Streaming JSON ('ndjson') Reader
+Version: 0.1.0
+Date: 2016-08-25
+Author: Bob Rudis (@hrbrmstr)
+Maintainer: Bob Rudis <bob@rudis.net>
+Description: Streaming JSON ('ndjson') has one JSON record per-line and many modern
+    'ndjson' files contain large numbers of records. These constructs may not be
+    columnar in nature, but it's often useful to read in these files and "flatten"
+    the structure out to work in an R data.frame context. Functions are provided that
+    make it possible to read in 'ndjson' from character vectors or files and create
+    "flat" data.table structures from them.
+URL: http://github.com/hrbrmstr/ndjson
+BugReports: https://github.com/hrbrmstr/ndjson/issues
+License: AGPL
+Suggests:
+    testthat
+Depends:
+    R (>= 3.0.0)
+Imports:
+    purrr,
+    Rcpp,
+    Rcpp11,
+    stringi,
+    data.table,
+    dtplyr
+LinkingTo: Rcpp, Rcpp11
+RoxygenNote: 5.0.1

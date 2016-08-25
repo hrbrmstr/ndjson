@@ -13,7 +13,7 @@ The following functions are implemented:
 ### Installation
 
 ``` r
-devtools::install_github("hrbrmstr/ndjson")
+devtools::install_git("https://gitlab.com/hrbrmstr/ndjson.git")
 ```
 
 ### Usage
@@ -71,8 +71,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.155974 2.241704 2.332940 2.287349 2.365835  3.698966   100  a 
-    ##  jsonlite 6.653041 6.802708 7.199187 6.931133 7.134981 10.827996   100   b
+    ##    ndjson 2.108356 2.240522 2.383994 2.313570 2.395300  3.888181   100  a 
+    ##  jsonlite 6.512980 6.760943 7.193767 6.906977 7.122298 11.384803   100   b
 
 ### Test Results
 
@@ -83,7 +83,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Aug 25 17:57:23 2016"
+    ## [1] "Thu Aug 25 17:59:25 2016"
 
 ``` r
 test_dir("tests/")

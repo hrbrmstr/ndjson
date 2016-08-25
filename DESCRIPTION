@@ -11,8 +11,8 @@ Description: Streaming JSON ('ndjson') has one JSON record per-line and many mod
     the structure out to work in an R data.frame context. Functions are provided that
     make it possible to read in 'ndjson' from character vectors or files and create
     "flat" data.table structures from them.
-URL: http://github.com/hrbrmstr/ndjson
-BugReports: https://github.com/hrbrmstr/ndjson/issues
+URL: http://gitlab.com/hrbrmstr/ndjson
+BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
 License: AGPL
 Suggests:
     testthat

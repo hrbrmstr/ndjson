@@ -70,9 +70,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.164029 2.260217 2.353497 2.309950 2.361279 3.637044   100  a 
-    ##  jsonlite 6.690733 6.859965 7.200450 6.977782 7.117655 9.895136   100   b
+    ##      expr      min       lq     mean   median       uq       max neval cld
+    ##    ndjson 2.155974 2.241704 2.332940 2.287349 2.365835  3.698966   100  a 
+    ##  jsonlite 6.653041 6.802708 7.199187 6.931133 7.134981 10.827996   100   b
 
 ### Test Results
 
@@ -83,7 +83,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Aug 25 17:49:56 2016"
+    ## [1] "Thu Aug 25 17:57:23 2016"
 
 ``` r
 test_dir("tests/")
@@ -93,3 +93,5 @@ test_dir("tests/")
     ## OK: 0 SKIPPED: 0 FAILED: 0
     ## 
     ## DONE ===================================================================================================================
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

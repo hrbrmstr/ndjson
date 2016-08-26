@@ -1,24 +1,27 @@
-#' Stream in JSON from a file
+#' Stream in & flatten an ndjson file into a \code{tbl_dt}
 #'
-#' Given a file of streaming JSON (ndjson) this function uses \code{stringi::stri_read_lines()}
-#' to read the data in quickly and create a flat \code{data.table} / \code{tbl_dt}
-#' from it.
+#' Given a file of streaming JSON (ndjson) this function reads in the records
+#' and creates a flat \code{data.table} / \code{tbl_dt} from it.
 #'
-#' @param x path
+#' @param path path to file
+#' @return \code{data.frame}
 #' @export
-stream_in_file <- function(x) {
-  tmp <- .Call('ndjson_internal_stream_in', stringi::stri_read_lines(x), PACKAGE = 'ndjson' )
+stream_in <- function(path) {
+  tmp <- .Call('ndjson_internal_stream_in', path.expand(path), PACKAGE='ndjson')
   dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
 }
 
-#' Stream in JSON from a character vector
+
+#' Validate ndjson file
 #'
-#' Given a character vector of streaming JSON (ndjson) this function will
-#' create a flat \code{data.table} / \code{tbl_dt} from it.
+#' Given a file of streaming JSON (ndjson) this function reads in the records
+#' and validates that they are all legal JSON records
 #'
-#' @param x character vector
+#' @param path path to file
+#' @param verbose display verbose information (filename and line numbers with bad records)
+#' @return logical
 #' @export
-stream_in <- function(x) {
-  tmp <- .Call('ndjson_internal_stream_in', x, PACKAGE = 'ndjson')
-  dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
+validate <- function(path, verbose=FALSE) {
+  .Call('ndjson_internal_validate', path.expand(path), verbose, PACKAGE='ndjson')
 }
+

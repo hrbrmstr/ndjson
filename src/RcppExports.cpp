@@ -6,13 +6,25 @@
 using namespace Rcpp;
 
 // internal_stream_in
-List internal_stream_in(std::vector < std::string > lines);
-RcppExport SEXP ndjson_internal_stream_in(SEXP linesSEXP) {
+List internal_stream_in(std::string path);
+RcppExport SEXP ndjson_internal_stream_in(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::vector < std::string > >::type lines(linesSEXP);
-    __result = Rcpp::wrap(internal_stream_in(lines));
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    __result = Rcpp::wrap(internal_stream_in(path));
+    return __result;
+END_RCPP
+}
+// internal_validate
+bool internal_validate(std::string path, bool verbose);
+RcppExport SEXP ndjson_internal_validate(SEXP pathSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(internal_validate(path, verbose));
     return __result;
 END_RCPP
 }

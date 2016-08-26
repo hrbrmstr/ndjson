@@ -1,26 +1,40 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include <fstream>
+using std::ifstream;
+
 #include "json.hpp"
 using json = nlohmann::json;
 
 // [[Rcpp::plugins(cpp11)]]
 
+#define MAX_CHARS_PER_LINE 10*1024
+
 // [[Rcpp::export]]
-List internal_stream_in(std::vector < std::string > lines) {
+List internal_stream_in(std::string path) {
 
-  List container(lines.size());
+  R_xlen_t num_lines = 0;
+  ifstream in(path);
+  std::string line;
+  while (std::getline(in, line)) ++num_lines;
+  in.close();
 
-  for (R_xlen_t j=0; j<lines.size(); j++) {
+  List container(num_lines);
+  R_xlen_t j=0;
 
-    json o = json::parse(lines[j]).flatten();
+  in.open(path);
+
+  while(getline(in, line)) {
+
+    json o = json::parse(line).flatten();
 
     List lst(o.size());
     CharacterVector lst_nms(o.size());
 
-    double d_val;
+    double      d_val;
     std::string s_val;
-    bool b_val;
+    bool        b_val;
 
     R_xlen_t i=0;
     for (json::iterator it = o.begin(); it != o.end(); ++it) {
@@ -52,10 +66,41 @@ List internal_stream_in(std::vector < std::string > lines) {
     lst.attr("class") = "data.frame";
     lst.attr("row.names") = 1;
 
-    container[j] = lst;
+    container[j++] = lst;
 
   }
 
+  in.close();
+
   return(container);
+
+}
+
+// [[Rcpp::export]]
+bool internal_validate(std::string path, bool verbose) {
+
+  bool ok = true;
+  std::string line;
+  R_xlen_t j=0;
+
+  ifstream f(path);
+
+  if (verbose) Rcout << "File: " << path << std::endl;
+
+  while(getline(f, line)) {
+
+    j++;
+
+    try {
+      json o = json::parse(line);
+    } catch(...) {
+      ok = false;
+      if (verbose) Rcout << "  - invalid JSON record on line " << j << std::endl;
+    }
+
+  }
+
+  f.close();
+  return(ok);
 
 }

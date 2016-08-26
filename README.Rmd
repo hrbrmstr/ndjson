@@ -11,9 +11,8 @@ records.
 
 The following functions are implemented:
 
-- `stream_in`:	Stream in JSON from a character vector
-- `stream_in_file`:	Stream in JSON from a file
-
+- `stream_in`:	Stream in ndjson from a file
+- `validate`:	Validate JSON records in an ndjson file
 
 ### Installation
 
@@ -34,17 +33,21 @@ library(microbenchmark)
 # current verison
 packageVersion("ndjson")
 
+tf <- tempfile()
 sample_data <- readr::read_lines("http://httpbin.org/stream/100")
 length(sample_data)
+readr::write_lines(sample_data, tf)
 
-dplyr::glimpse(ndjson::stream_in(sample_data))
+dplyr::glimpse(ndjson::stream_in(tf))
 
-dplyr::glimpse(jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE))
 
 microbenchmark(
-  ndjson={ ndjson::stream_in(sample_data) },
-  jsonlite={ jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE) }
+  ndjson={ ndjson::stream_in(tf) },
+  jsonlite={ jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE) }
 )
+
+unlink(tf)
 
 ```
 

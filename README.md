@@ -7,8 +7,8 @@ The goal is to create a completely "flat" `data.frame`-like structure from ndjso
 
 The following functions are implemented:
 
--   `stream_in`: Stream in JSON from a character vector
--   `stream_in_file`: Stream in JSON from a file
+-   `stream_in`: Stream in ndjson from a file
+-   `validate`: Validate JSON records in an ndjson file
 
 ### Installation
 
@@ -29,6 +29,7 @@ packageVersion("ndjson")
     ## [1] '0.1.0'
 
 ``` r
+tf <- tempfile()
 sample_data <- readr::read_lines("http://httpbin.org/stream/100")
 length(sample_data)
 ```
@@ -36,7 +37,9 @@ length(sample_data)
     ## [1] 100
 
 ``` r
-dplyr::glimpse(ndjson::stream_in(sample_data))
+readr::write_lines(sample_data, tf)
+
+dplyr::glimpse(ndjson::stream_in(tf))
 ```
 
     ## Observations: 100
@@ -51,7 +54,7 @@ dplyr::glimpse(ndjson::stream_in(sample_data))
     ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
 
 ``` r
-dplyr::glimpse(jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE))
 ```
 
     ## Observations: 100
@@ -64,15 +67,19 @@ dplyr::glimpse(jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, ve
 
 ``` r
 microbenchmark(
-  ndjson={ ndjson::stream_in(sample_data) },
-  jsonlite={ jsonlite::stream_in(textConnection(sample_data), flatten=TRUE, verbose=FALSE) }
+  ndjson={ ndjson::stream_in(tf) },
+  jsonlite={ jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE) }
 )
 ```
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.108356 2.240522 2.383994 2.313570 2.395300  3.888181   100  a 
-    ##  jsonlite 6.512980 6.760943 7.193767 6.906977 7.122298 11.384803   100   b
+    ##    ndjson 2.456077 2.664881 2.782078 2.738882 2.830236  4.112322   100  a 
+    ##  jsonlite 8.347527 8.633819 9.055792 8.797878 9.092505 13.744002   100   b
+
+``` r
+unlink(tf)
+```
 
 ### Test Results
 
@@ -83,7 +90,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Thu Aug 25 17:59:25 2016"
+    ## [1] "Fri Aug 26 16:00:46 2016"
 
 ``` r
 test_dir("tests/")

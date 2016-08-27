@@ -7,7 +7,7 @@
 stream_in(path)
 }
 \arguments{
-\item{path}{path to file}
+\item{path}{path to file (supports "\code{gz}" files)}
 }
 \value{
 \code{data.frame}

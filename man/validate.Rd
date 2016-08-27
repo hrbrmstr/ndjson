@@ -4,10 +4,12 @@
 \alias{validate}
 \title{Validate ndjson file}
 \usage{
-validate(path)
+validate(path, verbose = FALSE)
 }
 \arguments{
-\item{path}{path to file}
+\item{path}{path to file (supports "\code{gz}" files)}
+
+\item{verbose}{display verbose information (filename and line numbers with bad records)}
 }
 \value{
 logical

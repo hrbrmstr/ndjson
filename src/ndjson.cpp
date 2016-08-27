@@ -5,7 +5,7 @@ using namespace Rcpp;
 #include <iostream>
 using std::ifstream;
 
-#include "json.hpp"
+#include "json.h"
 using json = nlohmann::json;
 
 #include "gzstream.h"

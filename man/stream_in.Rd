@@ -10,10 +10,20 @@ stream_in(path)
 \item{path}{path to file (supports "\code{gz}" files)}
 }
 \value{
-\code{data.frame}
+\code{tbl_dt}
 }
 \description{
 Given a file of streaming JSON (ndjson) this function reads in the records
 and creates a flat \code{data.table} / \code{tbl_dt} from it.
+}
+\examples{
+f <- system.file("extdata", "test.json", package="ndjson")
+nrow(stream_in(f))
+
+gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
+nrow(stream_in(gzf))
+}
+\references{
+\url{http://ndjson.org/}
 }
 

@@ -16,6 +16,18 @@ logical
 }
 \description{
 Given a file of streaming JSON (ndjson) this function reads in the records
-and validates that they are all legal JSON records
+and validates that they are all legal JSON records. If the \code{verbose}
+parameter is \code{TRUE} and errors are found, the line numbers of the
+errant records will be displayed.
+}
+\examples{
+f <- system.file("extdata", "test.json", package="ndjson")
+validate(f)
+
+gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
+validate(gzf)
+}
+\references{
+\url{http://ndjson.org/}
 }
 

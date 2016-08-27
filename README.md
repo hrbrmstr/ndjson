@@ -26,7 +26,7 @@ library(microbenchmark)
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.1.0'
+    ## [1] '0.2.0'
 
 ``` r
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -93,9 +93,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr     min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.14295 2.272900 2.476348 2.360306 2.491099  4.647523   100  a 
-    ##  jsonlite 7.09834 7.266711 7.892412 7.483522 8.023671 12.548351   100   b
+    ##      expr      min       lq     mean   median       uq       max neval cld
+    ##    ndjson 1.990480 2.060795 2.266793 2.165192 2.358421  3.984349   100  a 
+    ##  jsonlite 6.505712 6.740528 7.442968 7.053144 7.947017 10.981351   100   b
 
 ``` r
 microbenchmark(
@@ -105,9 +105,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.127702 2.243182 2.435168 2.311043 2.439949 4.424222   100  a 
-    ##  jsonlite 6.119968 6.378245 6.784871 6.507773 6.888627 9.692935   100   b
+    ##      expr      min       lq     mean   median       uq       max neval cld
+    ##    ndjson 1.979330 2.110037 2.309322 2.208250 2.396541  3.551681   100  a 
+    ##  jsonlite 5.769753 6.117667 6.599506 6.383949 6.819627 10.094506   100   b
 
 ### Test Results
 
@@ -118,14 +118,14 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Fri Aug 26 23:01:36 2016"
+    ## [1] "Sat Aug 27 00:07:02 2016"
 
 ``` r
 test_dir("tests/")
 ```
 
     ## testthat results ========================================================================================================
-    ## OK: 0 SKIPPED: 0 FAILED: 0
+    ## OK: 4 SKIPPED: 0 FAILED: 0
     ## 
     ## DONE ===================================================================================================================
 

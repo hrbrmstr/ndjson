@@ -23,7 +23,6 @@ Imports:
     purrr,
     Rcpp,
     Rcpp11,
-    BH,
     stringi,
     data.table,
     dtplyr

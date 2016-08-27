@@ -1,2 +1,2 @@
 PKG_CXXFLAGS = -std=c++11
-PKG_LIBS = -lz -lboost_iostreams
+PKG_LIBS = -L. -lz

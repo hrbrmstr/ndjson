@@ -6,13 +6,12 @@ output: rmarkdown::github_document
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
-The goal is to create a completely "flat" `data.frame`-like structure from ndjson
-records.
+The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files
 
 The following functions are implemented:
 
-- `stream_in`:	Stream in ndjson from a file
-- `validate`:	Validate JSON records in an ndjson file
+- `stream_in`:	Stream in ndjson from a file (handles `.gz` files)
+- `validate`:	Validate JSON records in an ndjson file (handles `.gz` files)
 
 ### Installation
 
@@ -33,21 +32,24 @@ library(microbenchmark)
 # current verison
 packageVersion("ndjson")
 
-tf <- tempfile()
-sample_data <- readr::read_lines("http://httpbin.org/stream/100")
-length(sample_data)
-readr::write_lines(sample_data, tf)
+f <- system.file("extdata", "test.json", package="ndjson")
+gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 
-dplyr::glimpse(ndjson::stream_in(tf))
+dplyr::glimpse(ndjson::stream_in(f))
+dplyr::glimpse(ndjson::stream_in(gzf))
 
-dplyr::glimpse(jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 
 microbenchmark(
-  ndjson={ ndjson::stream_in(tf) },
-  jsonlite={ jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE) }
+    ndjson={ ndjson::stream_in(f) },
+  jsonlite={ jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
 )
 
-unlink(tf)
+microbenchmark(
+    ndjson={ ndjson::stream_in(gzf) },
+  jsonlite={ jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
+)
 
 ```
 

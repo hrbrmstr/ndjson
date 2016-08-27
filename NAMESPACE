@@ -2,7 +2,6 @@
 
 export(stream_in)
 export(validate)
-import(Rcpp11)
 importFrom(Rcpp,sourceCpp)
 importFrom(data.table,rbindlist)
 importFrom(dtplyr,tbl_dt)

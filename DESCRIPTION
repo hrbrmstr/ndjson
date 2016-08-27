@@ -1,7 +1,7 @@
 Package: ndjson
 Type: Package
 Title: Wicked-Fast Streaming 'JSON' ('ndjson') Reader
-Version: 0.2.0
+Version: 0.2.0.1
 Date: 2016-08-27
 Author: Bob Rudis (@hrbrmstr), Niels Lohmann (C++ json parser),
      Deepak Bandyopadhyay (C++ gzstream), Lutz Kettner (C++ gzstream)
@@ -24,8 +24,7 @@ Depends:
     R (>= 3.2.0)
 Imports:
     Rcpp,
-    Rcpp11,
     data.table,
     dtplyr
-LinkingTo: Rcpp, Rcpp11
+LinkingTo: Rcpp
 RoxygenNote: 5.0.1

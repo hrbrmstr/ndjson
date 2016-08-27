@@ -13,6 +13,7 @@ Description: Streaming JSON ('ndjson') has one JSON record per-line and many mod
     "flat" data.table structures from them.
 URL: http://gitlab.com/hrbrmstr/ndjson
 BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
+NeedsCompilation: true
 License: AGPL
 Suggests:
     testthat
@@ -22,6 +23,7 @@ Imports:
     purrr,
     Rcpp,
     Rcpp11,
+    BH,
     stringi,
     data.table,
     dtplyr

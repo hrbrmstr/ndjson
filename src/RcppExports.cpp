@@ -6,12 +6,12 @@
 using namespace Rcpp;
 
 // internal_stream_in
-List internal_stream_in(std::string path);
+List internal_stream_in(const std::string& path);
 RcppExport SEXP ndjson_internal_stream_in(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
     __result = Rcpp::wrap(internal_stream_in(path));
     return __result;
 END_RCPP

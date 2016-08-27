@@ -6,3 +6,4 @@
 ^NOTES\.*Rmd$
 ^NOTES\.*html$
 ^CONDUCT\.md$
+^cran-comments\.md$

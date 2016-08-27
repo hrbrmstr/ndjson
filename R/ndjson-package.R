@@ -6,7 +6,6 @@
 #' @import purrr
 #' @useDynLib ndjson
 #' @import Rcpp11
-#' @import BH
 #' @importFrom Rcpp sourceCpp
 #' @importFrom stringi stri_read_lines stri_enc_toutf8
 #' @importFrom data.table rbindlist

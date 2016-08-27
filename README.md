@@ -3,12 +3,12 @@
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
-The goal is to create a completely "flat" `data.frame`-like structure from ndjson records.
+The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files
 
 The following functions are implemented:
 
--   `stream_in`: Stream in ndjson from a file
--   `validate`: Validate JSON records in an ndjson file
+-   `stream_in`: Stream in ndjson from a file (handles `.gz` files)
+-   `validate`: Validate JSON records in an ndjson file (handles `.gz` files)
 
 ### Installation
 
@@ -29,32 +29,52 @@ packageVersion("ndjson")
     ## [1] '0.1.0'
 
 ``` r
-tf <- tempfile()
-sample_data <- readr::read_lines("http://httpbin.org/stream/100")
-length(sample_data)
-```
+f <- system.file("extdata", "test.json", package="ndjson")
+gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 
-    ## [1] 100
-
-``` r
-readr::write_lines(sample_data, tf)
-
-dplyr::glimpse(ndjson::stream_in(tf))
+dplyr::glimpse(ndjson::stream_in(f))
 ```
 
     ## Observations: 100
     ## Variables: 8
     ## $ args                    <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,...
     ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
-    ## $ headers.Accept-Encoding <chr> "gzip, deflate", "gzip, deflate", "gzip, deflate", "gzip, deflate", "gzip, deflate"...
+    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
     ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
-    ## $ headers.User-Agent      <chr> "r/curl/jeroen", "r/curl/jeroen", "r/curl/jeroen", "r/curl/jeroen", "r/curl/jeroen"...
+    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
     ## $ id                      <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
     ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
     ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
 
 ``` r
-dplyr::glimpse(jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(ndjson::stream_in(gzf))
+```
+
+    ## Observations: 100
+    ## Variables: 8
+    ## $ args                    <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,...
+    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
+    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
+    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
+    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
+    ## $ id                      <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
+    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
+    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
+
+``` r
+dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
+```
+
+    ## Observations: 100
+    ## Variables: 5
+    ## $ url     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", ...
+    ## $ headers <data.frame> c("httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", ...
+    ## $ args    <data.frame> 
+    ## $ id      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 2...
+    ## $ origin  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22...
+
+``` r
+dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 ```
 
     ## Observations: 100
@@ -67,19 +87,27 @@ dplyr::glimpse(jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE))
 
 ``` r
 microbenchmark(
-  ndjson={ ndjson::stream_in(tf) },
-  jsonlite={ jsonlite::stream_in(file(tf), flatten=TRUE, verbose=FALSE) }
+    ndjson={ ndjson::stream_in(f) },
+  jsonlite={ jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
 )
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.456077 2.664881 2.782078 2.738882 2.830236  4.112322   100  a 
-    ##  jsonlite 8.347527 8.633819 9.055792 8.797878 9.092505 13.744002   100   b
+    ##      expr     min       lq     mean   median       uq       max neval cld
+    ##    ndjson 2.14295 2.272900 2.476348 2.360306 2.491099  4.647523   100  a 
+    ##  jsonlite 7.09834 7.266711 7.892412 7.483522 8.023671 12.548351   100   b
 
 ``` r
-unlink(tf)
+microbenchmark(
+    ndjson={ ndjson::stream_in(gzf) },
+  jsonlite={ jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
+)
 ```
+
+    ## Unit: milliseconds
+    ##      expr      min       lq     mean   median       uq      max neval cld
+    ##    ndjson 2.127702 2.243182 2.435168 2.311043 2.439949 4.424222   100  a 
+    ##  jsonlite 6.119968 6.378245 6.784871 6.507773 6.888627 9.692935   100   b
 
 ### Test Results
 
@@ -90,7 +118,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Fri Aug 26 16:00:46 2016"
+    ## [1] "Fri Aug 26 23:01:36 2016"
 
 ``` r
 test_dir("tests/")

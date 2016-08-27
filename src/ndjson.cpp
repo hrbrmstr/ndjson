@@ -1,5 +1,3 @@
-// [[Rcpp::depends(BH)]]
-
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -7,12 +5,10 @@ using namespace Rcpp;
 #include <iostream>
 using std::ifstream;
 
-#include <boost/iostreams/filtering_streambuf.hpp>
-#include <boost/iostreams/copy.hpp>
-#include <boost/iostreams/filter/gzip.hpp>
-
 #include "json.hpp"
 using json = nlohmann::json;
+
+#include "gzstream.h"
 
 // [[Rcpp::plugins(cpp11)]]
 
@@ -26,25 +22,18 @@ List gz_stream_in(const std::string &path) {
   R_xlen_t num_lines = 0;
   std::string line;
 
-  std::ifstream file(path, std::ios_base::in | std::ios_base::binary);
-  boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf;
-  inbuf.push(boost::iostreams::gzip_decompressor());
-  inbuf.push(file);
-  std::istream instream(&inbuf);
-
-  while(std::getline(instream, line)) ++num_lines;
-  file.close();
+  igzstream in;
+  in.open(path.c_str());
+  while(std::getline(in, line)) ++num_lines;
+  in.close();
 
   List container(num_lines);
   R_xlen_t j=0;
 
-  std::ifstream file2(path, std::ios_base::in | std::ios_base::binary);
-  boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf2;
-  inbuf2.push(boost::iostreams::gzip_decompressor());
-  inbuf2.push(file2);
-  std::istream instream2(&inbuf2);
+  igzstream in2;
+  in2.open(path.c_str());
 
-  while(getline(instream2, line)) {
+  while(std::getline(in2, line)) {
 
     json o = json::parse(line).flatten();
 
@@ -89,7 +78,7 @@ List gz_stream_in(const std::string &path) {
 
   }
 
-  file2.close();
+  in2.close();
 
   return(container);
 
@@ -178,13 +167,10 @@ bool internal_validate(std::string path, bool verbose) {
 
   if (ends_with(path, ".gz")) {
 
-    std::ifstream file(path, std::ios_base::in | std::ios_base::binary);
-    boost::iostreams::filtering_streambuf<boost::iostreams::input> inbuf;
-    inbuf.push(boost::iostreams::gzip_decompressor());
-    inbuf.push(file);
-    std::istream instream(&inbuf);
+    igzstream in;
+    in.open(path.c_str());
 
-    while(std::getline(instream, line)) {
+    while(std::getline(in, line)) {
 
       j++;
 
@@ -197,7 +183,7 @@ bool internal_validate(std::string path, bool verbose) {
 
     }
 
-    file.close();
+    in.close();
 
   } else {
 

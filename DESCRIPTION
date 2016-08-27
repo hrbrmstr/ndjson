@@ -9,10 +9,11 @@ Description: Streaming JSON ('ndjson') has one JSON record per-line and many mod
     'ndjson' files contain large numbers of records. These constructs may not be
     columnar in nature, but it's often useful to read in these files and "flatten"
     the structure out to work in an R data.frame context. Functions are provided that
-    make it possible to read in 'ndjson' from character vectors or files and create
-    "flat" data.table structures from them.
+    make it possible to read in 'ndjson' plain 'ndjson' files or gzip'd 'ndjson' files and
+    create "flat" data.table structures from them.
 URL: http://gitlab.com/hrbrmstr/ndjson
 BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
+SystemRequirements: zlib
 NeedsCompilation: true
 License: AGPL
 Suggests:

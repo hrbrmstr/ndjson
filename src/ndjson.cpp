@@ -10,8 +10,6 @@ using json = nlohmann::json;
 
 #include "gzstream.h"
 
-// [[Rcpp::plugins(cpp11)]]
-
 bool ends_with(const std::string &str, const std::string &suffix) {
   return((str.size() >= suffix.size()) &&
          (str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0));

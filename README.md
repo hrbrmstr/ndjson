@@ -1,4 +1,6 @@
 
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+
 `ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
@@ -93,7 +95,7 @@ library(microbenchmark)
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.2.0'
+    ## [1] '0.2.0.1'
 
 ``` r
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -161,8 +163,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 1.992763 2.206649 2.552674 2.393933 2.637830  5.611511   100  a 
-    ##  jsonlite 6.581225 7.346081 8.175704 7.788215 8.385383 18.362504   100   b
+    ##    ndjson 2.372138 2.497904 2.624273 2.571894 2.703812  3.756806   100  a 
+    ##  jsonlite 7.851678 8.127897 8.556983 8.272829 8.533164 11.582593   100   b
 
 ``` r
 microbenchmark(
@@ -173,8 +175,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 1.964173 2.106192 2.328189 2.277450 2.470676  4.344798   100  a 
-    ##  jsonlite 5.832732 6.217815 6.730746 6.529397 6.940126 10.365723   100   b
+    ##    ndjson 2.407248 2.543958 2.721179 2.635235 2.758519  4.359281   100  a 
+    ##  jsonlite 7.274065 7.618980 7.894502 7.835843 8.021717 10.268014   100   b
 
 ### Test Results
 
@@ -185,7 +187,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Aug 27 13:28:18 2016"
+    ## [1] "Mon Aug 29 08:52:47 2016"
 
 ``` r
 test_dir("tests/")

@@ -75,7 +75,8 @@ However, if you do end up trying to work with that scan data, it's highly recomm
 The following functions are implemented:
 
 -   `stream_in`: Stream in ndjson from a file (handles `.gz` files)
--   `validate`: Validate JSON records in an ndjson file (handles `.gz` files).
+-   `validate`: Validate JSON records in an ndjson file (handles `.gz` files)
+-   `flatten`: Flatten a character vector of individual JSON lines
 
 There are no current plans for a `stream_out()` function since `jsonlite::stream_out()` does a great job tossing `data.frame`-like structures out to an ndjson file.
 
@@ -95,7 +96,18 @@ library(microbenchmark)
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.2.0.1'
+    ## [1] '0.3.0.0'
+
+``` r
+flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
+```
+
+    ## Source: local data table [1 x 4]
+    ## 
+    ## # tbl_dt [1 × 4]
+    ##    more top.another top.next.end top.next.final
+    ##   <chr>       <chr>        <lgl>          <dbl>
+    ## 1    no         yes         TRUE              1
 
 ``` r
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -163,8 +175,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.372138 2.497904 2.624273 2.571894 2.703812  3.756806   100  a 
-    ##  jsonlite 7.851678 8.127897 8.556983 8.272829 8.533164 11.582593   100   b
+    ##    ndjson 2.560371 2.729220 2.851222 2.798205 2.881642  4.105664   100  a 
+    ##  jsonlite 8.266456 8.629907 9.007069 8.857477 9.036219 11.338596   100   b
 
 ``` r
 microbenchmark(
@@ -174,9 +186,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.407248 2.543958 2.721179 2.635235 2.758519  4.359281   100  a 
-    ##  jsonlite 7.274065 7.618980 7.894502 7.835843 8.021717 10.268014   100   b
+    ##      expr      min       lq     mean   median       uq      max neval cld
+    ##    ndjson 2.679325 2.786938 2.873180 2.831197 2.894630 4.451697   100  a 
+    ##  jsonlite 7.772496 8.102557 8.377006 8.235461 8.418297 9.926089   100   b
 
 ### Test Results
 
@@ -187,7 +199,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Mon Aug 29 08:52:47 2016"
+    ## [1] "Wed Sep 14 15:47:10 2016"
 
 ``` r
 test_dir("tests/")
@@ -197,5 +209,6 @@ test_dir("tests/")
     ## OK: 4 SKIPPED: 0 FAILED: 0
     ## 
     ## DONE ===================================================================================================================
+    ## Your tests are geometric!
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

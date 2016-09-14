@@ -1,16 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#define class class_name
-#define private private_ptr
-#include <R_ext/Connections.h>
-#undef class
-#undef private
-
-extern "C" {
-  extern Rconnection getConnection(int) ;
-}
-
 #include <fstream>
 #include <iostream>
 using std::ifstream;
@@ -19,9 +9,6 @@ using std::ifstream;
 using json = nlohmann::json;
 
 #include "gzstream.h"
-
-
-// [[Rcpp::plugins(cpp11)]]
 
 bool ends_with(const std::string &str, const std::string &suffix) {
   return((str.size() >= suffix.size()) &&

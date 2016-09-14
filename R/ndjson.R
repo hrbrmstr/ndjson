@@ -18,7 +18,6 @@ stream_in <- function(path) {
   dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
 }
 
-
 #' Validate ndjson file
 #'
 #' Given a file of streaming JSON (ndjson) this function reads in the records
@@ -41,3 +40,14 @@ validate <- function(path, verbose=FALSE) {
   .Call('ndjson_internal_validate', path.expand(path), verbose, PACKAGE='ndjson')
 }
 
+#' Flatten a character vector of individual JSON lines into a \code{tbl_dt}
+#'
+#' @param x character vector of individual JSON lines to flatten
+#' @return \code{tbl_dt}
+#' @export
+#' @examples
+#' flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
+flatten <- function(x) {
+  tmp <- .Call('ndjson_internal_flatten', x, PACKAGE='ndjson')
+  dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
+}

@@ -1,7 +1,8 @@
 ---
 output: rmarkdown::github_document
 ---
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson) 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
 
 `ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader

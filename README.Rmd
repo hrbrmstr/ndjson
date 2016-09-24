@@ -4,12 +4,28 @@ output: rmarkdown::github_document
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson) 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
-
 `ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
+
+### Installation guidance for Linux/BSD-ish systems
+
+CRAN has binaries for Windows and macOS. To build this on UNIX-like
+systems, you need at least g++4.9 or clang++. This is a forced requirement by the ndjson library.
+
+The least painful way to do this is to install gcc >= 4.9 (and you should install ccache while you're at it) and mmodfiy `~/.R/Makevars` thusly:
+
+    # Use whatever version of (g++ >=4.9 or clang++) that you downloaded
+    VER=-4.9
+    CC=ccache gcc$(VER)
+    CXX=ccache g++$(VER)
+    SHLIB_CXXLD=g++$(VER)
+    FC=ccache gfortran
+    F77=ccache gfortran
+
+### Why `ndjson` + Examples
 
 An example of such files are the output from Rapid7 internet-wide scans, such as their [HTTPS study](https://scans.io/study/sonar.https). A gzip'd extract of 100,000 of one of those scans weighs in abt about 171MB. The records sometimes contain heavily nested JSON elements depending on how comprehensive the certificate data and other fields were. A typical record will look like this:
 

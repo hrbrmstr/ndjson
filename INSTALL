@@ -1,0 +1,15 @@
+CRAN has binaries for Windows and macOS. To build this on Linux/BSD-ish
+systems, you need at least g++4.9 or clang++. This is a forced requirement
+by the ndjson library.
+
+The least painful way to do this is to install gcc >= 4.9 (and you should
+install ccache while you're at it) and mmodfiy ~/.R/Makevars thusly:
+
+    # Use whatever version of (g++ >=4.9 or clang++) that you downloaded
+    VER=-4.9
+    CC=ccache gcc$(VER)
+    CXX=ccache g++$(VER)
+    SHLIB_CXXLD=g++$(VER)
+    FC=ccache gfortran
+    F77=ccache gfortran
+

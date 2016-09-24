@@ -16,6 +16,7 @@ matrix:
         - CXX=g++-4.9
 
 before_script:
+  - sudo apt-get remove -qq g++-4.8
   - mkdir -p ~/.R
   - echo "VkVSPS00LjkNCkNDPWNjYWNoZSBnY2MkKFZFUikNCkNYWD1jY2FjaGUgZysrJChWRVIpDQpTSExJQl9DWFhMRD1nKyskKFZFUikNCkZDPWNjYWNoZSBnZm9ydHJhbg0KRjc3PWNjYWNoZSBnZm9ydHJhbg==" | base64 -d > ~/.R/Makevars
 

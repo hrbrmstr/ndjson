@@ -10,11 +10,16 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
-      env: COMPILER=g++-4.9
+      env:
+        - COMPILER=g++-4.9
+        - CC=gcc=4.9
+        - CXX=g++-4.9
 
 before_script:
   - mkdir -p ~/.R
-  - echo "VkVSPS00LjgNCkNDPWNjYWNoZSBnY2MkKFZFUikNCkNYWD1jY2FjaGUgZysrJChWRVIpDQpTSExJQl9DWFhMRD1nKyskKFZFUikNCkZDPWNjYWNoZSBnZm9ydHJhbg0KRjc3PWNjYWNoZSBnZm9ydHJhbg0K" | base64 -d > ~/.R/Makevars
+  - mkdir -p /etc/R
+  - echo "VkVSPS00LjkNCkNDPWNjYWNoZSBnY2MkKFZFUikNCkNYWD1jY2FjaGUgZysrJChWRVIpDQpTSExJQl9DWFhMRD1nKyskKFZFUikNCkZDPWNjYWNoZSBnZm9ydHJhbg0KRjc3PWNjYWNoZSBnZm9ydHJhbg==" | base64 -d > ~/.R/Makevars
+  - echo "VkVSPS00LjkNCkNDPWNjYWNoZSBnY2MkKFZFUikNCkNYWD1jY2FjaGUgZysrJChWRVIpDQpTSExJQl9DWFhMRD1nKyskKFZFUikNCkZDPWNjYWNoZSBnZm9ydHJhbg0KRjc3PWNjYWNoZSBnZm9ydHJhbg==" | base64 -d > /etc/R/Makeconf
 
 env:
  global:

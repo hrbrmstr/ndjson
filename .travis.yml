@@ -2,6 +2,16 @@ language: r
 warnings_are_errors: true
 sudo: required
 
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9']
+      env: COMPILER=g++-4.9
+
 env:
  global:
    - CRAN: http://cran.rstudio.com

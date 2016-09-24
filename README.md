@@ -1,11 +1,27 @@
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
 `ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
+
+### Installation guidance for Linux/BSD-ish systems
+
+CRAN has binaries for Windows and macOS. To build this on UNIX-like systems, you need at least g++4.9 or clang++. This is a forced requirement by the ndjson library.
+
+The least painful way to do this is to install gcc &gt;= 4.9 (and you should install ccache while you're at it) and mmodfiy `~/.R/Makevars` thusly:
+
+    # Use whatever version of (g++ >=4.9 or clang++) that you downloaded
+    VER=-4.9
+    CC=ccache gcc$(VER)
+    CXX=ccache g++$(VER)
+    SHLIB_CXXLD=g++$(VER)
+    FC=ccache gfortran
+    F77=ccache gfortran
+
+### Why `ndjson` + Examples
 
 An example of such files are the output from Rapid7 internet-wide scans, such as their [HTTPS study](https://scans.io/study/sonar.https). A gzip'd extract of 100,000 of one of those scans weighs in abt about 171MB. The records sometimes contain heavily nested JSON elements depending on how comprehensive the certificate data and other fields were. A typical record will look like this:
 
@@ -147,24 +163,28 @@ dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
 ```
 
     ## Observations: 100
-    ## Variables: 5
-    ## $ url     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", ...
-    ## $ headers <data.frame> c("httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", ...
-    ## $ args    <data.frame> 
-    ## $ id      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 2...
-    ## $ origin  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22...
+    ## Variables: 7
+    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
+    ## $ id                      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
+    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
+    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
+    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
+    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
+    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
 
 ``` r
 dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 ```
 
     ## Observations: 100
-    ## Variables: 5
-    ## $ url     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", ...
-    ## $ headers <data.frame> c("httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", ...
-    ## $ args    <data.frame> 
-    ## $ id      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 2...
-    ## $ origin  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22...
+    ## Variables: 7
+    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
+    ## $ id                      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
+    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
+    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
+    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
+    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
+    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
 
 ``` r
 microbenchmark(
@@ -174,9 +194,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.560371 2.729220 2.851222 2.798205 2.881642  4.105664   100  a 
-    ##  jsonlite 8.266456 8.629907 9.007069 8.857477 9.036219 11.338596   100   b
+    ##      expr       min        lq      mean    median        uq      max neval cld
+    ##    ndjson  3.919027  4.433827  6.150104  5.180075  7.244736 20.81251   100  a 
+    ##  jsonlite 12.467896 15.082289 18.147614 17.279700 19.558667 36.21874   100   b
 
 ``` r
 microbenchmark(
@@ -186,9 +206,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.679325 2.786938 2.873180 2.831197 2.894630 4.451697   100  a 
-    ##  jsonlite 7.772496 8.102557 8.377006 8.235461 8.418297 9.926089   100   b
+    ##      expr       min       lq      mean   median        uq      max neval cld
+    ##    ndjson  4.097191  4.48604  6.237243  4.87477  7.197396 27.99522   100  a 
+    ##  jsonlite 11.773605 14.51569 17.207256 16.31577 19.958996 25.69794   100   b
 
 ### Test Results
 
@@ -199,7 +219,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Wed Sep 14 15:47:10 2016"
+    ## [1] "Sat Sep 24 10:32:48 2016"
 
 ``` r
 test_dir("tests/")
@@ -209,6 +229,5 @@ test_dir("tests/")
     ## OK: 4 SKIPPED: 0 FAILED: 0
     ## 
     ## DONE ===================================================================================================================
-    ## Your tests are geometric!
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

@@ -9,16 +9,16 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9']
+          packages: ['g++-5.3']
       env:
-        - COMPILER=g++-4.9
-        - CC=gcc=4.9
-        - CXX=g++-4.9
+        - COMPILER=g++-5.3
+        - CC=gcc=5.3
+        - CXX=g++-5.3
 
 before_install:
   - echo $HOME
   - mkdir -p ~/.R
-  - echo "VkVSPS00LjkKQ0M9Z2NjJChWRVIpIC1zdGQ9YzExIApDWFg9ZysrJChWRVIpClNITElCX0NYWExEPWcrKyQoVkVSKQpGQz1nZm9ydHJhbgpGNzc9Z2ZvcnRyYW4K" | base64 -d > ~/.R/Makevars
+  - echo "VkVSPS01LjMKQ0M9Z2NjJChWRVIpIC1zdGQ9YzExIApDWFg9ZysrJChWRVIpClNITElCX0NYWExEPWcrKyQoVkVSKQpGQz1nZm9ydHJhbgpGNzc9Z2ZvcnRyYW4K" | base64 -d > ~/.R/Makevars
   - cat ~/.R/Makevars
 
 env:

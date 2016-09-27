@@ -32,6 +32,3 @@ notifications:
     channels:
       - "irc.rud.is#builds"
     nick: travisci
-
-
--std=c11

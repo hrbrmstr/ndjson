@@ -15,11 +15,10 @@ matrix:
         - CC=gcc=4.9
         - CXX=g++-4.9
 
-before_script:
+before_install:
+  - apt-get -y remove gcc-4.6
   - echo $HOME
   - mkdir -p ~/.R
-  - cd ~/.R
-  - pwd
   - echo "VkVSPS00LjkKQ0M9Z2NjJChWRVIpCkNYWD1nKyskKFZFUikKU0hMSUJfQ1hYTEQ9ZysrJChWRVIpCkZDPWdmb3J0cmFuCkY3Nz1nZm9ydHJhbgo=" | base64 -d > ~/.R/Makevars
   - cat ~/.R/Makevars
 

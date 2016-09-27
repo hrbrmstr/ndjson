@@ -16,7 +16,7 @@ matrix:
         - CXX=g++-5
 
 before_install:
-  - sudo apt-get -y remove gcc-4.6
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 100
   - echo $HOME
   - mkdir -p ~/.R
   - echo "VkVSPS01CkNDPWdjYyQoVkVSKSAtc3RkPWMxMSAKQ1hYPWcrKyQoVkVSKQpTSExJQl9DWFhMRD1nKyskKFZFUikKRkM9Z2ZvcnRyYW4KRjc3PWdmb3J0cmFuCg==" | base64 -d > ~/.R/Makevars

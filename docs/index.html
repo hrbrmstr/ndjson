@@ -71,7 +71,7 @@
       <div class="row">
   <div class="col-md-9">
     
-<p><a href="https://travis-ci.org/hrbrmstr/ndjson"><img src="https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://cran.r-project.org/package=ndjson"><img src="http://www.r-pkg.org/badges/version/ndjson" alt="CRAN_Status_Badge"></a> <img src="http://cranlogs.r-pkg.org/badges/grand-total/ndjson" alt="downloads"></p>
+<p><a href="https://travis-ci.org/hrbrmstr/ndjson"><img src="https://travis-ci.org/hrbrmstr/ndjson.svg" alt="Travis-CI Build Status"></a> <a href="https://cran.r-project.org/package=ndjson"><img src="http://www.r-pkg.org/badges/version/ndjson" alt="CRAN_Status_Badge"></a> <img src="http://cranlogs.r-pkg.org/badges/grand-total/ndjson" alt="downloads"></p>
 <p><code>ndjson</code> : Wicked-fast Streaming JSON (&lsquo;ndjson&rsquo;) Reader</p>
 <p>Rcpp/C++11 wrapper for <a href="https://github.com/nlohmann/json" class="uri">https://github.com/nlohmann/json</a></p>
 <p>The goal is to create a completely &ldquo;flat&rdquo; <code>data.frame</code>-like structure from ndjson records in plain text ndjson files or gzip&rsquo;d ndjson files.</p>
@@ -218,23 +218,23 @@ dplyr::<span class="kw">glimpse</span>(ndjson::<span class="kw"><a href="referen
   <span class="dt">jsonlite=</span>{ jsonlite::<span class="kw"><a href="reference/stream_in.html">stream_in</a></span>(<span class="kw">file</span>(f), <span class="dt">flatten=</span><span class="ot">TRUE</span>, <span class="dt">verbose=</span><span class="ot">FALSE</span>) }
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## Unit: milliseconds
-##      expr       min        lq      mean    median        uq      max neval cld
-##    ndjson  3.919027  4.433827  6.150104  5.180075  7.244736 20.81251   100  a 
-##  jsonlite 12.467896 15.082289 18.147614 17.279700 19.558667 36.21874   100   b</code></pre></div>
+##      expr      min       lq     mean   median       uq       max neval cld
+##    ndjson 2.694575 2.883204 3.000030 2.956595 3.033864  4.319816   100  a 
+##  jsonlite 8.487524 9.011873 9.411114 9.151305 9.334732 12.523081   100   b</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">microbenchmark</span>(
     <span class="dt">ndjson=</span>{ ndjson::<span class="kw"><a href="reference/stream_in.html">stream_in</a></span>(gzf) },
   <span class="dt">jsonlite=</span>{ jsonlite::<span class="kw"><a href="reference/stream_in.html">stream_in</a></span>(<span class="kw">gzfile</span>(gzf), <span class="dt">flatten=</span><span class="ot">TRUE</span>, <span class="dt">verbose=</span><span class="ot">FALSE</span>) }
 )</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## Unit: milliseconds
-##      expr       min       lq      mean   median        uq      max neval cld
-##    ndjson  4.097191  4.48604  6.237243  4.87477  7.197396 27.99522   100  a 
-##  jsonlite 11.773605 14.51569 17.207256 16.31577 19.958996 25.69794   100   b</code></pre></div>
+##      expr      min       lq     mean   median       uq       max neval cld
+##    ndjson 2.856464 2.957216 3.030433 3.005832 3.069114  3.436334   100  a 
+##  jsonlite 8.302337 8.631042 9.021032 8.795794 9.031557 12.158147   100   b</code></pre></div>
 <h3 id="test-results">Test Results</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ndjson)
 <span class="kw">library</span>(testthat)
 
 <span class="kw">date</span>()</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## [1] "Sat Sep 24 10:32:48 2016"</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## [1] "Tue Sep 27 11:08:18 2016"</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">test_dir</span>(<span class="st">"tests/"</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## testthat results ========================================================================================================
 ## OK: 4 SKIPPED: 0 FAILED: 0

@@ -1,5 +1,5 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
 `ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
 
@@ -194,9 +194,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr       min        lq      mean    median        uq      max neval cld
-    ##    ndjson  3.919027  4.433827  6.150104  5.180075  7.244736 20.81251   100  a 
-    ##  jsonlite 12.467896 15.082289 18.147614 17.279700 19.558667 36.21874   100   b
+    ##      expr      min       lq     mean   median       uq       max neval cld
+    ##    ndjson 2.694575 2.883204 3.000030 2.956595 3.033864  4.319816   100  a 
+    ##  jsonlite 8.487524 9.011873 9.411114 9.151305 9.334732 12.523081   100   b
 
 ``` r
 microbenchmark(
@@ -206,9 +206,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr       min       lq      mean   median        uq      max neval cld
-    ##    ndjson  4.097191  4.48604  6.237243  4.87477  7.197396 27.99522   100  a 
-    ##  jsonlite 11.773605 14.51569 17.207256 16.31577 19.958996 25.69794   100   b
+    ##      expr      min       lq     mean   median       uq       max neval cld
+    ##    ndjson 2.856464 2.957216 3.030433 3.005832 3.069114  3.436334   100  a 
+    ##  jsonlite 8.302337 8.631042 9.021032 8.795794 9.031557 12.158147   100   b
 
 ### Test Results
 
@@ -219,7 +219,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sat Sep 24 10:32:48 2016"
+    ## [1] "Tue Sep 27 11:08:18 2016"
 
 ``` r
 test_dir("tests/")

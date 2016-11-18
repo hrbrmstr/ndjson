@@ -26,53 +26,59 @@ List gz_stream_in(const std::string &path) {
   in.close();
 
   List container(num_lines);
-  R_xlen_t j=0;
+  R_xlen_t k=0;
 
   igzstream in2;
   in2.open(path.c_str());
 
   while(std::getline(in2, line)) {
 
-    json o = json::parse(line).flatten();
+    try {
 
-    List lst(o.size());
-    CharacterVector lst_nms(o.size());
+      json o = json::parse(line).flatten();
 
-    double      d_val;
-    std::string s_val;
-    bool        b_val;
+      List lst(o.size());
+      CharacterVector lst_nms(o.size());
 
-    R_xlen_t i=0;
-    for (json::iterator it = o.begin(); it != o.end(); ++it) {
+      double      d_val;
+      std::string s_val;
+      bool        b_val;
 
-      std::string key = it.key();
-      std::replace(key.begin(), key.end(), '/', '.');
-      key.erase(0, 1);
+      R_xlen_t i=0;
+      for (json::iterator it = o.begin(); it != o.end(); ++it) {
 
-      lst_nms[i] = key;
+        std::string key = it.key();
+        std::replace(key.begin(), key.end(), '/', '.');
+        key.erase(0, 1);
 
-      if (it.value().is_number()) {
-        d_val = it.value();
-        lst[i] = d_val;
-      } else if (it.value().is_boolean()) {
-        b_val = it.value();
-        lst[i] = b_val;
-      } else if (it.value().is_string()) {
-        s_val = it.value();
-        lst[i] = s_val;
-      } else if (it.value().is_null()) {
-        lst[i] = NA_LOGICAL;
+        lst_nms[i] = key;
+
+        if (it.value().is_number()) {
+          d_val = it.value();
+          lst[i] = d_val;
+        } else if (it.value().is_boolean()) {
+          b_val = it.value();
+          lst[i] = b_val;
+        } else if (it.value().is_string()) {
+          s_val = it.value();
+          lst[i] = s_val;
+        } else if (it.value().is_null()) {
+          lst[i] = NA_LOGICAL;
+        }
+
+        i += 1;
+
       }
 
-      i += 1;
+      lst.attr("names") = lst_nms;
+      lst.attr("class") = "data.frame";
+      lst.attr("row.names") = 1;
 
+      container[k++] = lst;
+
+    } catch(...) {
+      Rcpp::warning("Parsing error on line " + std::to_string(k));
     }
-
-    lst.attr("names") = lst_nms;
-    lst.attr("class") = "data.frame";
-    lst.attr("row.names") = 1;
-
-    container[j++] = lst;
 
   }
 
@@ -87,52 +93,60 @@ List internal_flatten(CharacterVector lines) {
 
   R_xlen_t num_lines = lines.size();
   List container(num_lines);
-  R_xlen_t j=0;
+  R_xlen_t j=0, k=0;
 
   while(j < num_lines) {
 
     std::string line = as<std::string>(lines[j]);
 
-    json o = json::parse(line).flatten();
+    try {
 
-    List lst(o.size());
-    CharacterVector lst_nms(o.size());
+      json o = json::parse(line).flatten();
 
-    double      d_val;
-    std::string s_val;
-    bool        b_val;
+      List lst(o.size());
+      CharacterVector lst_nms(o.size());
 
-    R_xlen_t i=0;
-    for (json::iterator it = o.begin(); it != o.end(); ++it) {
+      double      d_val;
+      std::string s_val;
+      bool        b_val;
 
-      std::string key = it.key();
-      std::replace(key.begin(), key.end(), '/', '.');
-      key.erase(0, 1);
+      R_xlen_t i=0;
+      for (json::iterator it = o.begin(); it != o.end(); ++it) {
 
-      lst_nms[i] = key;
+        std::string key = it.key();
+        std::replace(key.begin(), key.end(), '/', '.');
+        key.erase(0, 1);
 
-      if (it.value().is_number()) {
-        d_val = it.value();
-        lst[i] = d_val;
-      } else if (it.value().is_boolean()) {
-        b_val = it.value();
-        lst[i] = b_val;
-      } else if (it.value().is_string()) {
-        s_val = it.value();
-        lst[i] = s_val;
-      } else if (it.value().is_null()) {
-        lst[i] = NA_LOGICAL;
+        lst_nms[i] = key;
+
+        if (it.value().is_number()) {
+          d_val = it.value();
+          lst[i] = d_val;
+        } else if (it.value().is_boolean()) {
+          b_val = it.value();
+          lst[i] = b_val;
+        } else if (it.value().is_string()) {
+          s_val = it.value();
+          lst[i] = s_val;
+        } else if (it.value().is_null()) {
+          lst[i] = NA_LOGICAL;
+        }
+
+        i += 1;
+
       }
 
-      i += 1;
+      lst.attr("names") = lst_nms;
+      lst.attr("class") = "data.frame";
+      lst.attr("row.names") = 1;
 
+      container[k++] = lst;
+
+    } catch(...) {
+      Rcpp::warning("Parsing error on line " + std::to_string(j));
     }
 
-    lst.attr("names") = lst_nms;
-    lst.attr("class") = "data.frame";
-    lst.attr("row.names") = 1;
-
-    container[j++] = lst;
+    j++;
 
   }
 
@@ -149,52 +163,58 @@ List j_stream_in(const std::string &path) {
   in.close();
 
   List container(num_lines);
-  R_xlen_t j=0;
+  R_xlen_t k=0;
 
   in.open(path);
 
   while(getline(in, line)) {
 
-    json o = json::parse(line).flatten();
+    try {
 
-    List lst(o.size());
-    CharacterVector lst_nms(o.size());
+      json o = json::parse(line).flatten();
 
-    double      d_val;
-    std::string s_val;
-    bool        b_val;
+      List lst(o.size());
+      CharacterVector lst_nms(o.size());
 
-    R_xlen_t i=0;
-    for (json::iterator it = o.begin(); it != o.end(); ++it) {
+      double      d_val;
+      std::string s_val;
+      bool        b_val;
 
-      std::string key = it.key();
-      std::replace(key.begin(), key.end(), '/', '.');
-      key.erase(0, 1);
+      R_xlen_t i=0;
+      for (json::iterator it = o.begin(); it != o.end(); ++it) {
 
-      lst_nms[i] = key;
+        std::string key = it.key();
+        std::replace(key.begin(), key.end(), '/', '.');
+        key.erase(0, 1);
 
-      if (it.value().is_number()) {
-        d_val = it.value();
-        lst[i] = d_val;
-      } else if (it.value().is_boolean()) {
-        b_val = it.value();
-        lst[i] = b_val;
-      } else if (it.value().is_string()) {
-        s_val = it.value();
-        lst[i] = s_val;
-      } else if (it.value().is_null()) {
-        lst[i] = NA_LOGICAL;
+        lst_nms[i] = key;
+
+        if (it.value().is_number()) {
+          d_val = it.value();
+          lst[i] = d_val;
+        } else if (it.value().is_boolean()) {
+          b_val = it.value();
+          lst[i] = b_val;
+        } else if (it.value().is_string()) {
+          s_val = it.value();
+          lst[i] = s_val;
+        } else if (it.value().is_null()) {
+          lst[i] = NA_LOGICAL;
+        }
+
+        i += 1;
+
       }
 
-      i += 1;
+      lst.attr("names") = lst_nms;
+      lst.attr("class") = "data.frame";
+      lst.attr("row.names") = 1;
 
+      container[k++] = lst;
+
+    } catch(...) {
+      Rcpp::warning("Parsing error on line " + std::to_string(k));
     }
-
-    lst.attr("names") = lst_nms;
-    lst.attr("class") = "data.frame";
-    lst.attr("row.names") = 1;
-
-    container[j++] = lst;
 
   }
 

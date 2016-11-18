@@ -1,3 +1,7 @@
+0.4.0
+=====================
+* Gracefull handles parsing errors when streaming in data
+
 0.3.0
 =====================
 * PR from Dirk to remove unnecessary dependency on Rcpp11

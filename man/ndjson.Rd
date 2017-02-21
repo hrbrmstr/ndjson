@@ -11,4 +11,3 @@ Wicked-fast Streaming JSON ('ndjson) Reader
 \author{
 Bob Rudis (@hrbrmstr)
 }
-

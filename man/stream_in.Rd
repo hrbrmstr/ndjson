@@ -26,4 +26,3 @@ nrow(stream_in(gzf))
 \references{
 \url{http://ndjson.org/}
 }
-

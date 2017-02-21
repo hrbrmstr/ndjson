@@ -1,6 +1,10 @@
+0.5.0
+=====================
+* Updated core ndjson file to take care of some buffer overflow vulns
+
 0.4.0
 =====================
-* Gracefull handles parsing errors when streaming in data
+* Gracefully handles parsing errors when streaming in data
 
 0.3.0
 =====================

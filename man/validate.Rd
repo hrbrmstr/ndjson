@@ -30,4 +30,3 @@ validate(gzf)
 \references{
 \url{http://ndjson.org/}
 }
-

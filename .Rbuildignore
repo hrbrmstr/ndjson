@@ -7,3 +7,4 @@
 ^NOTES\.*html$
 ^CONDUCT\.md$
 ^cran-comments\.md$
+^docs$

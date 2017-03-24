@@ -9,5 +9,5 @@
 Wicked-fast Streaming JSON ('ndjson) Reader
 }
 \author{
-Bob Rudis (@hrbrmstr)
+Bob Rudis (bob@rud.is)
 }

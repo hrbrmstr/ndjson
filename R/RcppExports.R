@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 internal_flatten <- function(lines) {
-    .Call('ndjson_internal_flatten', PACKAGE = 'ndjson', lines)
+    .Call(ndjson_internal_flatten, lines)
 }
 
 internal_stream_in <- function(path) {
-    .Call('ndjson_internal_stream_in', PACKAGE = 'ndjson', path)
+    .Call(ndjson_internal_stream_in, path)
 }
 
 internal_validate <- function(path, verbose) {
-    .Call('ndjson_internal_validate', PACKAGE = 'ndjson', path, verbose)
+    .Call(ndjson_internal_validate, path, verbose)
 }
 

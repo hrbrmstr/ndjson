@@ -1,14 +1,19 @@
-#include <Rcpp.h>
-using namespace Rcpp;
-
+#include <pthread.h>
+#include_next <stdlib.h>
 #include <fstream>
 #include <iostream>
-using std::ifstream;
+#include <cerrno>
 
+#include "gzstream.h"
 #include "json.h"
 using json = nlohmann::json;
 
-#include "gzstream.h"
+#include <Rcpp.h>
+
+using namespace Rcpp;
+using namespace std;
+
+using std::ifstream;
 
 bool ends_with(const std::string &str, const std::string &suffix) {
   return((str.size() >= suffix.size()) &&

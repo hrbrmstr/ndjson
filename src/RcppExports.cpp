@@ -39,3 +39,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"ndjson_internal_flatten", (DL_FUNC) &ndjson_internal_flatten, 1},
+    {"ndjson_internal_stream_in", (DL_FUNC) &ndjson_internal_stream_in, 1},
+    {"ndjson_internal_validate", (DL_FUNC) &ndjson_internal_validate, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_ndjson(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

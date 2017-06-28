@@ -4,13 +4,17 @@
 \alias{flatten}
 \title{Flatten a character vector of individual JSON lines into a \code{tbl_dt}}
 \usage{
-flatten(x)
+flatten(x, cls = c("dt", "tbl"))
 }
 \arguments{
 \item{x}{character vector of individual JSON lines to flatten}
+
+\item{cls}{the package uses \code{data.table::rbindlist} for speed but
+that's not always the best return type for everyone, so you have
+option of keeping it a \code{tbl_dt} via "\code{dt}" or converting it to a \code{tbl}}
 }
 \value{
-\code{tbl_dt}
+\code{tbl_dt} or \code{tbl} or {data.frame}
 }
 \description{
 Flatten a character vector of individual JSON lines into a \code{tbl_dt}

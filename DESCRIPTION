@@ -25,6 +25,7 @@ Depends:
 Imports:
     Rcpp,
     data.table,
+    dplyr,
     dtplyr
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1

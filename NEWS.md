@@ -1,6 +1,7 @@
 0.5.0
 =====================
 * Updated core ndjson file to take care of some buffer overflow vulns
+* Fixed CRAN check errors
 
 0.4.0
 =====================

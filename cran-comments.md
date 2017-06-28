@@ -1,16 +1,18 @@
 ## Test environments
-* local OS X install, R 3.3.1
-* ubuntu 14.04 (local vagrant), r-devel
+* local OS X install, R 3.4.0 (clang)
+* local ubuntu 16.04, R 3.4.0 (g++-7)
 * win-builder (devel and release)
-* local Windows 10 (R 3.3.1)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 1 note (Maintainer)
 
-* This is a new release.
+* This is an update
 
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+None
 
+## General notes
+
+- Fixed CRAN gcc 7 toolchain issues (linux)

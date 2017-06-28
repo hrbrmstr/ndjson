@@ -2,17 +2,17 @@ Package: ndjson
 Type: Package
 Title: Wicked-Fast Streaming 'JSON' ('ndjson') Reader
 Version: 0.5.0
-Date: 2016-11-18
+Date: 2017-06-28
 Author: Bob Rudis (bob@rud.is), Niels Lohmann (C++ json parser),
-     Deepak Bandyopadhyay (C++ gzstream), Lutz Kettner (C++ gzstream)
+    Deepak Bandyopadhyay (C++ gzstream), Lutz Kettner (C++ gzstream)
 Maintainer: Bob Rudis <bob@rud.is>
-Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and many modern
-    'ndjson' files contain large numbers of records. These constructs may not be
-    columnar in nature, but it is often useful to read in these files and "flatten"
-    the structure out to enable working with the data in an R 'data.frame'-like context. 
-    Functions are provided that make it possible to read in plain 'ndjson' files or 
-    compressed ('gz') 'ndjson' files and either validate the format of the records or 
-    create "flat" 'data.table' structures from them.
+Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and
+    many modern 'ndjson' files contain large numbers of records. These constructs
+    may not be columnar in nature, but it is often useful to read in these files
+    and "flatten" the structure out to enable working with the data in an R
+    'data.frame'-like context. Functions are provided that make it possible to read
+    in plain 'ndjson' files or compressed ('gz') 'ndjson' files and either validate
+    the format of the records or create "flat" 'data.table' structures from them.
 URL: http://gitlab.com/hrbrmstr/ndjson
 BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
 SystemRequirements: zlib, C++11

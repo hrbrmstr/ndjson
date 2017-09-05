@@ -1,6 +1,13 @@
 language: r
+
 warnings_are_errors: true
+
+packages: cache
+
 sudo: required
+
+apt_packages:
+  - libssh2-1-dev
 
 matrix:
   include:
@@ -24,11 +31,3 @@ before_install:
 env:
  global:
    - CRAN: http://cran.rstudio.com
-
-notifications:
-  email:
-    - bob@rud.is
-  irc:
-    channels:
-      - "irc.rud.is#builds"
-    nick: travisci

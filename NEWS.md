@@ -1,5 +1,6 @@
 0.6.0
 =====================
+* License change to MIT
 * Updated to nlohmann/json.hpp v3.1.1 (Ref:
   <https://github.com/nlohmann/json/blob/develop/ChangeLog.md>)
 * Removed nlohmann/json.hpp #pragma's causing CRAN issues vis-a-vis the new

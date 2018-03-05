@@ -16,6 +16,7 @@ None
 
 ## General notes
 
+- License change to MIT
 - Removed included-json library #pragmas causing CRAN issues due to new 
   "show all warnings" policy
 - Update core C++ library the pkg uses to 3.1.1

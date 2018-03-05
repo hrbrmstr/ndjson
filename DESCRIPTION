@@ -1,7 +1,7 @@
 Package: ndjson
 Type: Package
 Title: Wicked-Fast Streaming 'JSON' ('ndjson') Reader
-Version: 0.5.0
+Version: 0.6.0
 Date: 2018-03-04
 Author: Bob Rudis (bob@rud.is), Niels Lohmann (C++ json parser),
     Deepak Bandyopadhyay (C++ gzstream), Lutz Kettner (C++ gzstream)

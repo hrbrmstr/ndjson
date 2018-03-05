@@ -94,7 +94,7 @@ List gz_stream_in(const std::string &path) {
 }
 
 // [[Rcpp::export]]
-List internal_flatten(CharacterVector lines) {
+List flatten_int(CharacterVector lines) {
 
   R_xlen_t num_lines = lines.size();
   List container(num_lines);
@@ -230,7 +230,7 @@ List j_stream_in(const std::string &path) {
 }
 
 // [[Rcpp::export]]
-List internal_stream_in(const std::string &path) {
+List stream_in_int(const std::string &path) {
 
   if (ends_with(path, ".gz")) {
     return(gz_stream_in(path));
@@ -241,7 +241,7 @@ List internal_stream_in(const std::string &path) {
 }
 
 // [[Rcpp::export]]
-bool internal_validate(std::string path, bool verbose) {
+bool validate_int(std::string path, bool verbose) {
 
   bool ok = true;
   std::string line;

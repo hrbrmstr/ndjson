@@ -5,7 +5,11 @@ output: rmarkdown::github_document
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
 
-`ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
+# `ndjson` 
+
+Wicked-fast Streaming JSON ('ndjson') Reader
+
+## Description 
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
@@ -26,7 +30,7 @@ The least painful way to do this is to install gcc >= 4.9 (and you should instal
     FC=ccache gfortran
     F77=ccache gfortran
 
-### Why `ndjson` + Examples
+## Why `ndjson` + Examples
 
 An example of such files are the output from Rapid7 internet-wide scans, such as their [HTTPS study](https://scans.io/study/sonar.https). A gzip'd extract of 100,000 of one of those scans weighs in abt about 171MB. The records sometimes contain heavily nested JSON elements depending on how comprehensive the certificate data and other fields were. A typical record will look like this:
 
@@ -93,6 +97,8 @@ All of the certificate sub-field data elents have been expanded and we have a hi
 
 However, if you do end up trying to work with that scan data, it's highly recommended that you use `jq` to filter out the fields or records you want into a more compact ndjson file.
 
+## What's inside the tin?
+
 The following functions are implemented:
 
 - `stream_in`:	Stream in ndjson from a file (handles `.gz` files)
@@ -101,7 +107,7 @@ The following functions are implemented:
 
 There are no current plans for a `stream_out()` function since `jsonlite::stream_out()` does a great job tossing `data.frame`-like structures out to an ndjson file.
 
-### Installation
+## Installation
 
 ```{r eval=FALSE}
 devtools::install_git("https://gitlab.com/hrbrmstr/ndjson.git")
@@ -111,7 +117,7 @@ devtools::install_git("https://gitlab.com/hrbrmstr/ndjson.git")
 options(width=120)
 ```
 
-### Usage
+## Usage
 
 ```{r message=FALSE}
 library(ndjson)
@@ -143,7 +149,7 @@ microbenchmark(
 
 ```
 
-### Test Results
+## Test Results
 
 ```{r message=FALSE}
 library(ndjson)
@@ -153,5 +159,7 @@ date()
 
 test_dir("tests/")
 ```
+
+## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

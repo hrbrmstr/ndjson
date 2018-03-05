@@ -19,7 +19,7 @@
 #' nrow(stream_in(gzf))
 stream_in <- function(path, cls = c("dt", "tbl")) {
   cls <- match.arg(cls, c("dt", "tbl"))
-  tmp <- .Call('ndjson_internal_stream_in', path.expand(path), PACKAGE='ndjson')
+  tmp <- stream_in_int(path.expand(path))
   tmp <- dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
   if (cls == "tbl") dplyr::tbl_df(tmp) else tmp
 }
@@ -43,7 +43,7 @@ stream_in <- function(path, cls = c("dt", "tbl")) {
 #' gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 #' validate(gzf)
 validate <- function(path, verbose=FALSE) {
-  .Call('ndjson_internal_validate', path.expand(path), verbose, PACKAGE='ndjson')
+  validate_int(path.expand(path), verbose)
 }
 
 #' Flatten a character vector of individual JSON lines into a \code{tbl_dt}
@@ -59,7 +59,7 @@ validate <- function(path, verbose=FALSE) {
 #' flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 flatten <- function(x, cls = c("dt", "tbl")) {
   cls <- match.arg(cls, c("dt", "tbl"))
-  tmp <- .Call('ndjson_internal_flatten', x, PACKAGE='ndjson')
+  tmp <- flatten_int(x)
   tmp <- dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
   if (cls == "tbl") dplyr::tbl_df(tmp) else tmp
 }

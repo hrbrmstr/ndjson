@@ -5,45 +5,45 @@
 
 using namespace Rcpp;
 
-// internal_flatten
-List internal_flatten(CharacterVector lines);
-RcppExport SEXP ndjson_internal_flatten(SEXP linesSEXP) {
+// flatten_int
+List flatten_int(CharacterVector lines);
+RcppExport SEXP _ndjson_flatten_int(SEXP linesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type lines(linesSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_flatten(lines));
+    rcpp_result_gen = Rcpp::wrap(flatten_int(lines));
     return rcpp_result_gen;
 END_RCPP
 }
-// internal_stream_in
-List internal_stream_in(const std::string& path);
-RcppExport SEXP ndjson_internal_stream_in(SEXP pathSEXP) {
+// stream_in_int
+List stream_in_int(const std::string& path);
+RcppExport SEXP _ndjson_stream_in_int(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const std::string& >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_stream_in(path));
+    rcpp_result_gen = Rcpp::wrap(stream_in_int(path));
     return rcpp_result_gen;
 END_RCPP
 }
-// internal_validate
-bool internal_validate(std::string path, bool verbose);
-RcppExport SEXP ndjson_internal_validate(SEXP pathSEXP, SEXP verboseSEXP) {
+// validate_int
+bool validate_int(std::string path, bool verbose);
+RcppExport SEXP _ndjson_validate_int(SEXP pathSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(internal_validate(path, verbose));
+    rcpp_result_gen = Rcpp::wrap(validate_int(path, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"ndjson_internal_flatten", (DL_FUNC) &ndjson_internal_flatten, 1},
-    {"ndjson_internal_stream_in", (DL_FUNC) &ndjson_internal_stream_in, 1},
-    {"ndjson_internal_validate", (DL_FUNC) &ndjson_internal_validate, 2},
+    {"_ndjson_flatten_int", (DL_FUNC) &_ndjson_flatten_int, 1},
+    {"_ndjson_stream_in_int", (DL_FUNC) &_ndjson_stream_in_int, 1},
+    {"_ndjson_validate_int", (DL_FUNC) &_ndjson_validate_int, 2},
     {NULL, NULL, 0}
 };
 

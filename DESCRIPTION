@@ -17,7 +17,7 @@ URL: http://gitlab.com/hrbrmstr/ndjson
 BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
 SystemRequirements: zlib, C++11
 NeedsCompilation: yes
-License: AGPL
+License: MIT + file LICENSE
 Encoding: UTF-8
 Suggests:
     testthat

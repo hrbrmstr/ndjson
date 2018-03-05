@@ -1,17 +1,29 @@
 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![Travis-CI Build
+Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)
+![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
-`ndjson` : Wicked-fast Streaming JSON ('ndjson') Reader
+# `ndjson`
+
+Wicked-fast Streaming JSON (‘ndjson’) Reader
+
+## Description
 
 Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
 
-The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
+The goal is to create a completely “flat” `data.frame`-like structure
+from ndjson records in plain text ndjson files or gzip’d ndjson files.
 
 ### Installation guidance for Linux/BSD-ish systems
 
-CRAN has binaries for Windows and macOS. To build this on UNIX-like systems, you need at least g++4.9 or clang++. This is a forced requirement by the ndjson library.
+CRAN has binaries for Windows and macOS. To build this on UNIX-like
+systems, you need at least g++4.9 or clang++. This is a forced
+requirement by the ndjson library.
 
-The least painful way to do this is to install gcc &gt;= 4.9 (and you should install ccache while you're at it) and mmodfiy `~/.R/Makevars` thusly:
+The least painful way to do this is to install gcc \>= 4.9 (and you
+should install ccache while you’re at it) and mmodfiy `~/.R/Makevars`
+thusly:
 
     # Use whatever version of (g++ >=4.9 or clang++) that you downloaded
     VER=-4.9
@@ -21,9 +33,14 @@ The least painful way to do this is to install gcc &gt;= 4.9 (and you should ins
     FC=ccache gfortran
     F77=ccache gfortran
 
-### Why `ndjson` + Examples
+## Why `ndjson` + Examples
 
-An example of such files are the output from Rapid7 internet-wide scans, such as their [HTTPS study](https://scans.io/study/sonar.https). A gzip'd extract of 100,000 of one of those scans weighs in abt about 171MB. The records sometimes contain heavily nested JSON elements depending on how comprehensive the certificate data and other fields were. A typical record will look like this:
+An example of such files are the output from Rapid7 internet-wide scans,
+such as their [HTTPS study](https://scans.io/study/sonar.https). A
+gzip’d extract of 100,000 of one of those scans weighs in abt about
+171MB. The records sometimes contain heavily nested JSON elements
+depending on how comprehensive the certificate data and other fields
+were. A typical record will look like this:
 
     {
       "vhost": "teamchat.buzzpoints.com",
@@ -38,10 +55,13 @@ An example of such files are the output from Rapid7 internet-wide scans, such as
 
 A `system.time(df <- stream_in("https-extract.json.gz"))` results in:
 
-       user  system elapsed 
-     14.822   0.224  15.189 
+``` 
+   user  system elapsed 
+ 14.822   0.224  15.189 
+```
 
-on a 13" MacBook Pro and produces:
+on a 13" MacBook Pro and
+    produces:
 
     Classes ‘tbl_dt’, ‘tbl’, ‘data.table’ and 'data.frame': 100000 obs. of  36 variables:
      $ certsubject.CN                 : chr  "*.tio.ch" "*.starwoodhotels.com" "a.ssl.fastly.net" "a.ssl.fastly.net" ...
@@ -82,27 +102,40 @@ on a 13" MacBook Pro and produces:
      $ certsubject.Mail               : chr  NA NA NA NA ...
      - attr(*, ".internal.selfref")=<externalptr> 
 
-All of the certificate sub-field data elents have been expanded and we have a highly performant `tbl_dt` to work with now either in `dplyr` syntax or `data.table` heiroglyphic syntax. Just go see what you have to do in `jsonlite` to get a similar output (and how long it will take).
+All of the certificate sub-field data elents have been expanded and we
+have a highly performant `tbl_dt` to work with now either in `dplyr`
+syntax or `data.table` heiroglyphic syntax. Just go see what you have to
+do in `jsonlite` to get a similar output (and how long it will take).
 
-`pryr::object_size(df)` for that shows it's consuming `394 MB`, which means we can read in many more extracts comfortably on a reasonably configured system and most (if not all) of it on a well-configured AWS box.
+`pryr::object_size(df)` for that shows it’s consuming `394 MB`, which
+means we can read in many more extracts comfortably on a reasonably
+configured system and most (if not all) of it on a well-configured AWS
+box.
 
-However, if you do end up trying to work with that scan data, it's highly recommended that you use `jq` to filter out the fields or records you want into a more compact ndjson file.
+However, if you do end up trying to work with that scan data, it’s
+highly recommended that you use `jq` to filter out the fields or records
+you want into a more compact ndjson file.
+
+## What’s inside the tin?
 
 The following functions are implemented:
 
--   `stream_in`: Stream in ndjson from a file (handles `.gz` files)
--   `validate`: Validate JSON records in an ndjson file (handles `.gz` files)
--   `flatten`: Flatten a character vector of individual JSON lines
+  - `stream_in`: Stream in ndjson from a file (handles `.gz` files)
+  - `validate`: Validate JSON records in an ndjson file (handles `.gz`
+    files)
+  - `flatten`: Flatten a character vector of individual JSON lines
 
-There are no current plans for a `stream_out()` function since `jsonlite::stream_out()` does a great job tossing `data.frame`-like structures out to an ndjson file.
+There are no current plans for a `stream_out()` function since
+`jsonlite::stream_out()` does a great job tossing `data.frame`-like
+structures out to an ndjson file.
 
-### Installation
+## Installation
 
 ``` r
 devtools::install_git("https://gitlab.com/hrbrmstr/ndjson.git")
 ```
 
-### Usage
+## Usage
 
 ``` r
 library(ndjson)
@@ -112,7 +145,7 @@ library(microbenchmark)
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.3.0.0'
+    ## [1] '0.5.1'
 
 ``` r
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
@@ -120,7 +153,7 @@ flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 
     ## Source: local data table [1 x 4]
     ## 
-    ## # tbl_dt [1 × 4]
+    ## # A tibble: 1 x 4
     ##    more top.another top.next.end top.next.final
     ##   <chr>       <chr>        <lgl>          <dbl>
     ## 1    no         yes         TRUE              1
@@ -134,14 +167,14 @@ dplyr::glimpse(ndjson::stream_in(f))
 
     ## Observations: 100
     ## Variables: 8
-    ## $ args                    <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,...
-    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
-    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
-    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
-    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
-    ## $ id                      <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
-    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
-    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
+    ## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
+    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*...
+    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity...
+    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpb...
+    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)...
+    ## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,...
+    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.2...
+    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin...
 
 ``` r
 dplyr::glimpse(ndjson::stream_in(gzf))
@@ -149,14 +182,14 @@ dplyr::glimpse(ndjson::stream_in(gzf))
 
     ## Observations: 100
     ## Variables: 8
-    ## $ args                    <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,...
-    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
-    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
-    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
-    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
-    ## $ id                      <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
-    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
-    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
+    ## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N...
+    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*...
+    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity...
+    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpb...
+    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)...
+    ## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,...
+    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.2...
+    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin...
 
 ``` r
 dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
@@ -164,13 +197,13 @@ dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
 
     ## Observations: 100
     ## Variables: 7
-    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
-    ## $ id                      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
-    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
-    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
-    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
-    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
-    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
+    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin...
+    ## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,...
+    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.2...
+    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpb...
+    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity...
+    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*...
+    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)...
 
 ``` r
 dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
@@ -178,13 +211,13 @@ dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 
     ## Observations: 100
     ## Variables: 7
-    ## $ url                     <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o...
-    ## $ id                      <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2...
-    ## $ origin                  <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"...
-    ## $ headers.Host            <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin...
-    ## $ headers.Accept-Encoding <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",...
-    ## $ headers.Accept          <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",...
-    ## $ headers.User-Agent      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",...
+    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin...
+    ## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,...
+    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.2...
+    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpb...
+    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity...
+    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*...
+    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)...
 
 ``` r
 microbenchmark(
@@ -194,9 +227,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.694575 2.883204 3.000030 2.956595 3.033864  4.319816   100  a 
-    ##  jsonlite 8.487524 9.011873 9.411114 9.151305 9.334732 12.523081   100   b
+    ##      expr      min       lq     mean   median       uq      max neval cld
+    ##    ndjson 1.785639 1.877190 1.970529 1.937276 2.057145 2.317575   100  a 
+    ##  jsonlite 3.924401 4.087739 4.378292 4.233847 4.445059 6.395232   100   b
 
 ``` r
 microbenchmark(
@@ -206,11 +239,11 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq       max neval cld
-    ##    ndjson 2.856464 2.957216 3.030433 3.005832 3.069114  3.436334   100  a 
-    ##  jsonlite 8.302337 8.631042 9.021032 8.795794 9.031557 12.158147   100   b
+    ##      expr      min       lq     mean   median       uq      max neval cld
+    ##    ndjson 1.966033 2.056828 2.176153 2.141381 2.277848 2.853242   100  a 
+    ##  jsonlite 3.173205 3.386831 3.736111 3.545374 3.951642 6.565099   100   b
 
-### Test Results
+## Test Results
 
 ``` r
 library(ndjson)
@@ -219,15 +252,26 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Tue Sep 27 11:08:18 2016"
+    ## [1] "Sun Mar  4 21:37:48 2018"
 
 ``` r
 test_dir("tests/")
 ```
 
-    ## testthat results ========================================================================================================
-    ## OK: 4 SKIPPED: 0 FAILED: 0
+    ## ✔ | OK F W S | Context
+    ## ══ testthat results  ══════════════════════════════════════════════════════════
+    ## OK: 8 SKIPPED: 0 FAILED: 0
     ## 
-    ## DONE ===================================================================================================================
+    ## ══ Results ════════════════════════════════════════════════════════════════════
+    ## Duration: 0.3 s
+    ## 
+    ## OK:       0
+    ## Failed:   0
+    ## Warnings: 0
+    ## Skipped:  0
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to
+abide by its terms.

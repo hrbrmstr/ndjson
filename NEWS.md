@@ -1,3 +1,11 @@
+0.6.0
+=====================
+* Updated to nlohmann/json.hpp v3.1.1 (Ref:
+  <https://github.com/nlohmann/json/blob/develop/ChangeLog.md>)
+* Removed nlohmann/json.hpp #pragma's causing CRAN issues vis-a-vis the new
+  "Clutter up the console with unnecessary warnings" policy.
+# Slightly modified tests
+
 0.5.0
 =====================
 * Updated core ndjson file to take care of some buffer overflow vulns

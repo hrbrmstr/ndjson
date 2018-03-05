@@ -228,8 +228,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 1.785639 1.877190 1.970529 1.937276 2.057145 2.317575   100  a 
-    ##  jsonlite 3.924401 4.087739 4.378292 4.233847 4.445059 6.395232   100   b
+    ##    ndjson 1.800783 1.930446 2.065061 2.005727 2.096662 4.130570   100  a 
+    ##  jsonlite 4.134592 4.421841 4.654954 4.521327 4.733410 6.111577   100   b
 
 ``` r
 microbenchmark(
@@ -240,8 +240,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 1.966033 2.056828 2.176153 2.141381 2.277848 2.853242   100  a 
-    ##  jsonlite 3.173205 3.386831 3.736111 3.545374 3.951642 6.565099   100   b
+    ##    ndjson 2.017332 2.121698 2.211727 2.189572 2.293966 2.568628   100  a 
+    ##  jsonlite 3.281890 3.536046 3.861011 3.695738 4.044416 6.466599   100   b
 
 ## Test Results
 
@@ -252,7 +252,7 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Sun Mar  4 21:37:48 2018"
+    ## [1] "Mon Mar  5 11:05:09 2018"
 
 ``` r
 test_dir("tests/")

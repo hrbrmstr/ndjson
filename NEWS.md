@@ -1,3 +1,8 @@
+0.7.0
+=====================
+* Updated to nlohmann/json.hpp v3.2.0 (Ref:
+  <https://github.com/nlohmann/json/blob/develop/ChangeLog.md>)
+
 0.6.0
 =====================
 * License change to MIT

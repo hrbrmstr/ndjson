@@ -20,7 +20,7 @@ Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and
     the format of the records or create "flat" 'data.table' structures from them.
 URL: http://gitlab.com/hrbrmstr/ndjson
 BugReports: https://gitlab.com/hrbrmstr/ndjson/issues
-SystemRequirements: zlib, C++11
+SystemRequirements: zlib, C++14
 NeedsCompilation: yes
 License: MIT + file LICENSE
 Encoding: UTF-8

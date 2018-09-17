@@ -12,7 +12,7 @@
 
 ## Reverse dependencies
 
-None
+- streamR (passed check; it has no tests)
 
 ## General notes
 
@@ -20,3 +20,9 @@ None
 - Update core C++ library the pkg uses to 3.1.1
 - Removed #pragmas from said C++ library that was causing
   CRAN issues due to the new "show all warnings" policy
+
+Re-submitting as a result of me being daft and not having 
+the revdep check dir in .Rbuildignore (dir has been removed).
+
+thx, #sigh and apologies to the CRAN team for making you deal
+with two resubmissions today.

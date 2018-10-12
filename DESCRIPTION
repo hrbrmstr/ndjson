@@ -8,7 +8,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-5670-2640")),
     person("Niels", "Lohmann", role = "aut", comment = "C++ json parser"),
     person("Deepak", "Bandyopadhyay", role = "aut", comment = "C++ gzstream"),
-    person("Lutz", "Kettner", role = "aut", comment = "C++ gzstream)")
+    person("Lutz", "Kettner", role = "aut", comment = "C++ gzstream"),
+    person("Neal", "Fultz", role = "ctb", comment = "Rcpp integration")
   )
 Maintainer: Bob Rudis <bob@rud.is>
 Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line and

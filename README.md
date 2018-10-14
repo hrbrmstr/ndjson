@@ -145,7 +145,7 @@ library(microbenchmark)
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.5.1'
+    ## [1] '0.7.0'
 
 ``` r
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
@@ -154,9 +154,9 @@ flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
     ## Source: local data table [1 x 4]
     ## 
     ## # A tibble: 1 x 4
-    ##    more top.another top.next.end top.next.final
-    ##   <chr>       <chr>        <lgl>          <dbl>
-    ## 1    no         yes         TRUE              1
+    ##   more  top.another top.next.end top.next.final
+    ##   <chr> <chr>       <lgl>                 <dbl>
+    ## 1 no    yes         TRUE                     1.
 
 ``` r
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -227,9 +227,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 1.800783 1.930446 2.065061 2.005727 2.096662 4.130570   100  a 
-    ##  jsonlite 4.134592 4.421841 4.654954 4.521327 4.733410 6.111577   100   b
+    ##      expr      min       lq     mean   median       uq      max neval
+    ##    ndjson 1.831176 2.083086 2.639389 2.238831 2.849258 7.647733   100
+    ##  jsonlite 4.135890 4.401617 5.110563 4.775913 5.525197 8.488496   100
 
 ``` r
 microbenchmark(
@@ -239,9 +239,9 @@ microbenchmark(
 ```
 
     ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.017332 2.121698 2.211727 2.189572 2.293966 2.568628   100  a 
-    ##  jsonlite 3.281890 3.536046 3.861011 3.695738 4.044416 6.466599   100   b
+    ##      expr      min       lq     mean   median       uq      max neval
+    ##    ndjson 1.786119 1.951655 2.268009 2.055698 2.372954 5.213458   100
+    ##  jsonlite 2.834640 3.047767 3.596774 3.211619 3.783015 8.229681   100
 
 ## Test Results
 
@@ -252,23 +252,32 @@ library(testthat)
 date()
 ```
 
-    ## [1] "Mon Mar  5 11:05:09 2018"
+    ## [1] "Sun Oct 14 11:25:31 2018"
 
 ``` r
 test_dir("tests/")
 ```
 
     ## ✔ | OK F W S | Context
-    ## ══ testthat results  ══════════════════════════════════════════════════════════
+    ## ══ testthat results  ══════════════════════════════════════════════════════
     ## OK: 8 SKIPPED: 0 FAILED: 0
     ## 
-    ## ══ Results ════════════════════════════════════════════════════════════════════
-    ## Duration: 0.3 s
-    ## 
+    ## ══ Results ════════════════════════════════════════════════════════════════
     ## OK:       0
     ## Failed:   0
     ## Warnings: 0
     ## Skipped:  0
+    ## 
+    ## Way to go!
+
+## ndjson Metrics
+
+| Lang         | \# Files | (%) | LoC |  (%) | Blank lines |  (%) | \# Lines |  (%) |
+| :----------- | -------: | --: | --: | ---: | ----------: | ---: | -------: | ---: |
+| C++          |        3 | 0.3 | 338 | 0.72 |         105 | 0.60 |       55 | 0.21 |
+| C/C++ Header |        1 | 0.1 |  66 | 0.14 |          15 | 0.09 |       40 | 0.16 |
+| R            |        5 | 0.5 |  43 | 0.09 |          11 | 0.06 |       60 | 0.23 |
+| Rmd          |        1 | 0.1 |  25 | 0.05 |          45 | 0.26 |      101 | 0.39 |
 
 ## Code of Conduct
 

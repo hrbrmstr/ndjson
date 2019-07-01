@@ -2,16 +2,15 @@
 output: rmarkdown::github_document
 ---
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson) 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson)
 
-
-# `ndjson` 
+# ndjson
 
 Wicked-fast Streaming JSON ('ndjson') Reader
 
 ## Description 
 
-Rcpp/C++11 wrapper for <https://github.com/nlohmann/json>
+Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
 
@@ -20,7 +19,7 @@ The goal is to create a completely "flat" `data.frame`-like structure from ndjso
 CRAN has binaries for Windows and macOS. To build this on UNIX-like
 systems, you need at least g++4.9 or clang++. This is a forced requirement by the ndjson library.
 
-The least painful way to do this is to install gcc >= 4.9 (and you should install ccache while you're at it) and mmodfiy `~/.R/Makevars` thusly:
+The least painful way to do this is to install gcc >= 4.9 (and you should install `ccache` while you're at it) and mmodfiy `~/.R/Makevars` thusly:
 
     # Use whatever version of (g++ >=4.9 or clang++) that you downloaded
     VER=-4.9
@@ -110,7 +109,7 @@ There are no current plans for a `stream_out()` function since `jsonlite::stream
 ## Installation
 
 ```{r eval=FALSE}
-devtools::install_git("https://gitlab.com/hrbrmstr/ndjson.git")
+devtools::install_gitlab("hrbrmstr/ndjson")
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
@@ -121,6 +120,7 @@ options(width=120)
 
 ```{r message=FALSE}
 library(ndjson)
+library(dplyr) # for glimpse()
 library(microbenchmark)
 
 # current verison
@@ -131,33 +131,22 @@ flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 f <- system.file("extdata", "test.json", package="ndjson")
 gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 
-dplyr::glimpse(ndjson::stream_in(f))
-dplyr::glimpse(ndjson::stream_in(gzf))
+glimpse(ndjson::stream_in(f))
+glimpse(ndjson::stream_in(gzf))
 
-dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
-dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
+glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
+glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 
 microbenchmark(
-    ndjson={ ndjson::stream_in(f) },
-  jsonlite={ jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
+    ndjson = { ndjson::stream_in(f) },
+  jsonlite = { jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
 )
 
 microbenchmark(
-    ndjson={ ndjson::stream_in(gzf) },
-  jsonlite={ jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
+    ndjson = { ndjson::stream_in(gzf) },
+  jsonlite = { jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
 )
 
-```
-
-## Test Results
-
-```{r message=FALSE}
-library(ndjson)
-library(testthat)
-
-date()
-
-test_dir("tests/")
 ```
 
 ## ndjson Metrics

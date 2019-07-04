@@ -3,6 +3,7 @@
 Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)
 ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![codecov](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
 
 # ndjson
 
@@ -228,8 +229,8 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.540309 2.740289 2.825664 2.836391 2.899738 3.158451   100  a 
-    ##  jsonlite 4.639562 4.862621 5.069223 4.956906 5.060659 8.718424   100   b
+    ##    ndjson 2.442485 2.596204 2.745175 2.690766 2.804094 4.013431   100  a 
+    ##  jsonlite 4.217499 4.504054 4.727236 4.601660 4.709972 7.449513   100   b
 
 ``` r
 microbenchmark(
@@ -240,17 +241,17 @@ microbenchmark(
 
     ## Unit: milliseconds
     ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.239958 2.540567 2.660905 2.655922 2.778022 3.149006   100  a 
-    ##  jsonlite 3.670082 4.052133 4.261960 4.228176 4.502213 5.079588   100   b
+    ##    ndjson 2.222315 2.315079 2.375566 2.362604 2.421380 2.597568   100  a 
+    ##  jsonlite 3.463747 3.577249 3.775267 3.702971 3.930447 4.336006   100   b
 
 ## ndjson Metrics
 
-| Lang         | \# Files | (%) | LoC |  (%) | Blank lines |  (%) | \# Lines |  (%) |
-| :----------- | -------: | --: | --: | ---: | ----------: | ---: | -------: | ---: |
-| C++          |        3 | 0.3 | 338 | 0.72 |         105 | 0.61 |       55 | 0.22 |
-| C/C++ Header |        1 | 0.1 |  66 | 0.14 |          15 | 0.09 |       40 | 0.16 |
-| R            |        5 | 0.5 |  43 | 0.09 |          11 | 0.06 |       60 | 0.24 |
-| Rmd          |        1 | 0.1 |  22 | 0.05 |          40 | 0.23 |       98 | 0.39 |
+| Lang         | \# Files |  (%) | LoC |  (%) | Blank lines |  (%) | \# Lines |  (%) |
+| :----------- | -------: | ---: | --: | ---: | ----------: | ---: | -------: | ---: |
+| C++          |        3 | 0.33 | 338 | 0.74 |         105 | 0.63 |       55 | 0.22 |
+| C/C++ Header |        1 | 0.11 |  66 | 0.15 |          15 | 0.09 |       40 | 0.16 |
+| R            |        4 | 0.44 |  28 | 0.06 |           6 | 0.04 |       60 | 0.24 |
+| Rmd          |        1 | 0.11 |  22 | 0.05 |          40 | 0.24 |       99 | 0.39 |
 
 ## Code of Conduct
 

@@ -2,7 +2,8 @@
 output: rmarkdown::github_document
 ---
 [![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson) 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson) 
+[![codecov](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
 
 # ndjson
 

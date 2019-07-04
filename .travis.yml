@@ -23,3 +23,6 @@ before_install:
   - mkdir -p ~/.R
   - echo "VkVSPS03CkNDPWdjYyQoVkVSKSAtc3RkPWMxMSAKQ1hYPWcrKyQoVkVSKQpTSExJQl9DWFhMRD1nKyskKFZFUikKRkM9Z2ZvcnRyYW4KRjc3PWdmb3J0cmFuCg==" | base64 -d > ~/.R/Makevars
   - cat ~/.R/Makevars
+
+after_success:
+  - Rscript -e 'covr::codecov()'

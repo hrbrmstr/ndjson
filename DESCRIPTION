@@ -1,7 +1,7 @@
 Package: ndjson
 Type: Package
 Title: Wicked-Fast Streaming 'JSON' ('ndjson') Reader
-Version: 0.8.0.8900
+Version: 0.8.0.9000
 Date: 2019-09-17
 Authors@R: c( person("Bob", "Rudis", email = "bob@rud.is", role =
         c("aut", "cre"), comment = c(ORCID = "0000-0001-5670-2640")),

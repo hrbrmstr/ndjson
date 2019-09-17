@@ -1,14 +1,14 @@
-#' Stream in & flatten an ndjson file into a \code{tbl_dt}
+#' Stream in & flatten an ndjson file into a \code{data.table}
 #'
 #' Given a file of streaming JSON (ndjson) this function reads in the records
-#' and creates a flat \code{data.table} / \code{tbl_dt} from it.
+#' and creates a flat \code{data.table} / \code{tbl} from it.
 #'
 #' @md
 #' @param path path to file (supports "\code{gz}" files)
 #' @param cls the package uses \code{data.table::rbindlist} for speed but
 #'        that's not always the best return type for everyone, so you have
-#'        option of keeping it a `tbl_dt` via "`dt`" or converting it to a `tbl`
-#' @return \code{tbl_dt} or \code{tbl} or \{data.frame}
+#'        option of keeping it a `data.table` or converting it to a `tbl`
+#' @return \code{data.table} or \code{tbl}
 #' @export
 #' @references \url{http://ndjson.org/}
 #' @examples
@@ -20,8 +20,8 @@
 stream_in <- function(path, cls = c("dt", "tbl")) {
   cls <- match.arg(cls, c("dt", "tbl"))
   tmp <- stream_in_int(path.expand(path))
-  tmp <- dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
-  if (cls == "tbl") dplyr::tbl_df(tmp) else tmp
+  tmp <- data.table::rbindlist(tmp, fill=TRUE)
+  if (cls == "tbl") tibble::as_tibble(tmp) else tmp
 }
 
 #' Validate ndjson file
@@ -46,20 +46,20 @@ validate <- function(path, verbose=FALSE) {
   validate_int(path.expand(path), verbose)
 }
 
-#' Flatten a character vector of individual JSON lines into a \code{tbl_dt}
+#' Flatten a character vector of individual JSON lines into a \code{data.table}
 #'
 #' @md
 #' @param x character vector of individual JSON lines to flatten
 #' @param cls the package uses \code{data.table::rbindlist} for speed but
 #'        that's not always the best return type for everyone, so you have
-#'        option of keeping it a `tbl_dt` via "`dt`" or converting it to a `tbl`
-#' @return \code{tbl_dt} or \code{tbl} or \{data.frame}
+#'        option of keeping it a `data.table` or converting it to a `tbl`
+#' @return \code{data.table} or \code{tbl}
 #' @export
 #' @examples
 #' flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 flatten <- function(x, cls = c("dt", "tbl")) {
   cls <- match.arg(cls, c("dt", "tbl"))
   tmp <- flatten_int(x)
-  tmp <- dtplyr::tbl_dt(data.table::rbindlist(tmp, fill=TRUE))
-  if (cls == "tbl") dplyr::tbl_df(tmp) else tmp
+  tmp <- data.table::rbindlist(tmp, fill=TRUE)
+  if (cls == "tbl") tibble::as_tibble(tmp) else tmp
 }

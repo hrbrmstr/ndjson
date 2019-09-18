@@ -63,7 +63,7 @@ A `system.time(df <- stream_in("https-extract.json.gz"))` results in:
 
 on a 13" MacBook Pro and produces:
 
-    Classes ‘tbl_dt’, ‘tbl’, ‘data.table’ and 'data.frame': 100000 obs. of  36 variables:
+    Classes ‘data.table’ and 'data.frame': 100000 obs. of  36 variables:
      $ certsubject.CN                 : chr  "*.tio.ch" "*.starwoodhotels.com" "a.ssl.fastly.net" "a.ssl.fastly.net" ...
      $ data                           : chr  "SFRUUC8xLjEgNDAzIEZvcmJpZGRlbg0KU2VydmVyOiBjbG91ZGZsYXJlLW5naW54DQpEYXRlOiBNb24sIDIyIEF1ZyAyMDE2IDE3OjE2OjE2IEdNVA0KQ29udGVudC1"| __truncated__ "SFRUUC8xLjAgNDAwIEJhZCBSZXF1ZXN0DQpTZXJ2ZXI6IEFrYW1haUdIb3N0DQpNaW1lLVZlcnNpb246IDEuMA0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWwNCkNvbnR"| __truncated__ "SFRUUC8xLjEgNTAwIERvbWFpbiBOb3QgRm91bmQNClNlcnZlcjogVmFybmlzaA0KUmV0cnktQWZ0ZXI6IDANCmNvbnRlbnQtdHlwZTogdGV4dC9odG1sDQpDYWNoZS1"| __truncated__ "SFRUUC8xLjEgNTAwIERvbWFpbiBOb3QgRm91bmQNClNlcnZlcjogVmFybmlzaA0KUmV0cnktQWZ0ZXI6IDANCmNvbnRlbnQtdHlwZTogdGV4dC9odG1sDQpDYWNoZS1"| __truncated__ ...
      $ host                           : chr  "104.20.28.6" "104.80.186.186" "151.101.255.54" "151.101.158.15" ...
@@ -102,10 +102,10 @@ on a 13" MacBook Pro and produces:
      $ certsubject.Mail               : chr  NA NA NA NA ...
      - attr(*, ".internal.selfref")=<externalptr> 
 
-All of the certificate sub-field data elents have been expanded and we
-have a highly performant `tbl_dt` to work with now either in `dplyr`
-syntax or `data.table` heiroglyphic syntax. Just go see what you have to
-do in `jsonlite` to get a similar output (and how long it will take).
+All of the certificate sub-field data elements have been expanded and we
+have a highly performant `data.table` to work with. Just go see what you
+have to do in `jsonlite` to get a similar output (and how long it will
+take).
 
 `pryr::object_size(df)` for that shows it’s consuming `394 MB`, which
 means we can read in many more extracts comfortably on a reasonably
@@ -142,22 +142,18 @@ library(ndjson)
 library(dplyr) # for glimpse()
 library(microbenchmark)
 
-# current verison
+# current version
 packageVersion("ndjson")
 ```
 
-    ## [1] '0.8.0'
+    ## [1] '0.8.0.9000'
 
 ``` r
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 ```
 
-    ## Source: local data table [1 x 4]
-    ## 
-    ## # A tibble: 1 x 4
-    ##   more  top.another top.next.end top.next.final
-    ##   <chr> <chr>       <lgl>                 <dbl>
-    ## 1 no    yes         TRUE                      1
+    ##    more top.another top.next.end top.next.final
+    ## 1:   no         yes         TRUE              1
 
 ``` r
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -227,10 +223,10 @@ microbenchmark(
 )
 ```
 
-    ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.442485 2.596204 2.745175 2.690766 2.804094 4.013431   100  a 
-    ##  jsonlite 4.217499 4.504054 4.727236 4.601660 4.709972 7.449513   100   b
+    ## Unit: microseconds
+    ##      expr      min       lq      mean    median       uq      max neval
+    ##    ndjson  771.020  793.538  859.4169  811.7045  849.264 2690.986   100
+    ##  jsonlite 1813.497 1856.171 1994.1377 1885.5590 2100.324 3880.118   100
 
 ``` r
 microbenchmark(
@@ -239,10 +235,10 @@ microbenchmark(
 )
 ```
 
-    ## Unit: milliseconds
-    ##      expr      min       lq     mean   median       uq      max neval cld
-    ##    ndjson 2.222315 2.315079 2.375566 2.362604 2.421380 2.597568   100  a 
-    ##  jsonlite 3.463747 3.577249 3.775267 3.702971 3.930447 4.336006   100   b
+    ## Unit: microseconds
+    ##      expr      min       lq      mean   median        uq      max neval
+    ##    ndjson  820.305  832.089  878.8793  851.292  874.7915 1451.010   100
+    ##  jsonlite 1786.219 1800.926 1944.4390 1825.675 1968.5375 4057.697   100
 
 ## ndjson Metrics
 
@@ -250,7 +246,7 @@ microbenchmark(
 | :----------- | -------: | ---: | --: | ---: | ----------: | ---: | -------: | ---: |
 | C++          |        3 | 0.33 | 338 | 0.74 |         105 | 0.63 |       55 | 0.22 |
 | C/C++ Header |        1 | 0.11 |  66 | 0.15 |          15 | 0.09 |       40 | 0.16 |
-| R            |        4 | 0.44 |  28 | 0.06 |           6 | 0.04 |       60 | 0.24 |
+| R            |        4 | 0.44 |  28 | 0.06 |           6 | 0.04 |       57 | 0.23 |
 | Rmd          |        1 | 0.11 |  22 | 0.05 |          40 | 0.24 |       99 | 0.39 |
 
 ## Code of Conduct

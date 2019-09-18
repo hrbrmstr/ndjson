@@ -2,7 +2,7 @@
 % Please edit documentation in R/ndjson.R
 \name{stream_in}
 \alias{stream_in}
-\title{Stream in & flatten an ndjson file into a \code{tbl_dt}}
+\title{Stream in & flatten an ndjson file into a \code{data.table}}
 \usage{
 stream_in(path, cls = c("dt", "tbl"))
 }
@@ -11,14 +11,14 @@ stream_in(path, cls = c("dt", "tbl"))
 
 \item{cls}{the package uses \code{data.table::rbindlist} for speed but
 that's not always the best return type for everyone, so you have
-option of keeping it a \code{tbl_dt} via "\code{dt}" or converting it to a \code{tbl}}
+option of keeping it a \code{data.table} or converting it to a \code{tbl}}
 }
 \value{
-\code{tbl_dt} or \code{tbl} or {data.frame}
+\code{data.table} or \code{tbl}
 }
 \description{
 Given a file of streaming JSON (ndjson) this function reads in the records
-and creates a flat \code{data.table} / \code{tbl_dt} from it.
+and creates a flat \code{data.table} / \code{tbl} from it.
 }
 \examples{
 f <- system.file("extdata", "test.json", package="ndjson")

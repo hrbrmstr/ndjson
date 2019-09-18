@@ -2,7 +2,7 @@
 % Please edit documentation in R/ndjson.R
 \name{flatten}
 \alias{flatten}
-\title{Flatten a character vector of individual JSON lines into a \code{tbl_dt}}
+\title{Flatten a character vector of individual JSON lines into a \code{data.table}}
 \usage{
 flatten(x, cls = c("dt", "tbl"))
 }
@@ -11,13 +11,13 @@ flatten(x, cls = c("dt", "tbl"))
 
 \item{cls}{the package uses \code{data.table::rbindlist} for speed but
 that's not always the best return type for everyone, so you have
-option of keeping it a \code{tbl_dt} via "\code{dt}" or converting it to a \code{tbl}}
+option of keeping it a \code{data.table} or converting it to a \code{tbl}}
 }
 \value{
-\code{tbl_dt} or \code{tbl} or {data.frame}
+\code{data.table} or \code{tbl}
 }
 \description{
-Flatten a character vector of individual JSON lines into a \code{tbl_dt}
+Flatten a character vector of individual JSON lines into a \code{data.table}
 }
 \examples{
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')

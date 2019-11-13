@@ -1,15 +1,16 @@
 Package: ndjson
 Type: Package
 Title: Wicked-Fast Streaming 'JSON' ('ndjson') Reader
-Version: 0.8.0.9000
-Date: 2019-09-17
+Version: 0.8.0
+Date: 2019-11-13
 Authors@R: c( person("Bob", "Rudis", email = "bob@rud.is", role =
         c("aut", "cre"), comment = c(ORCID = "0000-0001-5670-2640")),
         person("Niels", "Lohmann", role = "aut", comment = "C++ json
         parser"), person("Deepak", "Bandyopadhyay", role = "aut", comment
         = "C++ gzstream"), person("Lutz", "Kettner", role = "aut",
         comment = "C++ gzstream"), person("Neal", "Fultz", role = "ctb",
-        comment = "Rcpp integration") )
+        comment = "Rcpp integration"), person("Maarten", "Demeyer", role = "ctb",
+        comment = "dtplyr cleanup"))
 Maintainer: Bob Rudis <bob@rud.is>
 Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line
         and many modern 'ndjson' files contain large numbers of records.

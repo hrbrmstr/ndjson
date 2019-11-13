@@ -10,3 +10,6 @@
 * This is a bug-fix release.
 
 Per note from Kurt I've fixed the {dtplyr} issues.
+
+And, now fixed the README link issue. (please disregard
+the previous submission).

@@ -5,7 +5,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Signed
 by](https://img.shields.io/badge/Keybase-Verified-brightgreen.svg)](https://keybase.io/hrbrmstr)
 ![Signed commit
-%](https://img.shields.io/badge/Signed_Commits-18.7%25-lightgrey.svg)
+%](https://img.shields.io/badge/Signed_Commits-100%25-lightgrey.svg)
 [![Linux build
 Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson)
 [![Coverage
@@ -59,7 +59,7 @@ thusly:
 ## Why `ndjson` + Examples
 
 An example of such files are the output from Rapid7 internet-wide scans,
-such as their [HTTPS study](https://scans.io/study/sonar.https). A
+such as their [HTTPS study](https://opendata.rapid7.com/sonar.https/). A
 gzip’d extract of 100,000 of one of those scans weighs in abt about
 171MB. The records sometimes contain heavily nested JSON elements
 depending on how comprehensive the certificate data and other fields
@@ -251,8 +251,8 @@ microbenchmark(
 )
 ## Unit: milliseconds
 ##      expr      min       lq     mean   median       uq      max neval cld
-##    ndjson 2.484437 2.577730 2.629168 2.619706 2.662832 3.010097   100  a 
-##  jsonlite 4.163929 4.286978 4.463872 4.359126 4.602030 7.945996   100   b
+##    ndjson 2.435400 2.508409 2.607311 2.554602 2.611543 6.070535   100  a 
+##  jsonlite 4.177671 4.392665 4.530934 4.555521 4.656247 5.029599   100   b
 
 microbenchmark(
     ndjson = { ndjson::stream_in(gzf) },
@@ -260,8 +260,8 @@ microbenchmark(
 )
 ## Unit: milliseconds
 ##      expr      min       lq     mean   median       uq      max neval cld
-##    ndjson 2.171794 2.252489 2.296104 2.291674 2.331800 2.648167   100  a 
-##  jsonlite 3.394873 3.524653 3.593871 3.578988 3.646918 3.904865   100   b
+##    ndjson 2.208561 2.313191 2.371382 2.370058 2.422588 2.622296   100  a 
+##  jsonlite 3.417319 3.576970 3.685897 3.664169 3.816465 4.258603   100   b
 ```
 
 ## ndjson Metrics

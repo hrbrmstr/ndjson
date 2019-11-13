@@ -1,17 +1,39 @@
 
-[![Travis-CI Build
-Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)
-![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson)
-[![codecov](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Signed
+by](https://img.shields.io/badge/Keybase-Verified-brightgreen.svg)](https://keybase.io/hrbrmstr)
+![Signed commit
+%](https://img.shields.io/badge/Signed_Commits-18.7%25-lightgrey.svg)
+[![Linux build
+Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson)
+[![Coverage
+Status](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
+[![cran
+checks](https://cranchecks.info/badges/worst/ndjson)](https://cranchecks.info/pkgs/ndjson)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ndjson)](https://www.r-pkg.org/pkg/ndjson)
+![Minimal R
+Version](https://img.shields.io/badge/R%3E%3D-3.2.0-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 # ndjson
 
-Wicked-fast Streaming JSON (‘ndjson’) Reader
+Wicked-Fast Streaming ‘JSON’ (‘ndjson’) Reader
 
 ## Description
 
-Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
+Streaming ‘JSON’ (‘ndjson’) has one ‘JSON’ record per-line and many
+modern ‘ndjson’ files contain large numbers of records. These constructs
+may not be columnar in nature, but it is often useful to read in these
+files and “flatten” the structure out to enable working with the data in
+an R ‘data.frame’-like context. Functions are provided that make it
+possible to read in plain ‘ndjson’ files or compressed (‘gz’) ‘ndjson’
+files and either validate the format of the records or create “flat”
+‘data.table’ structures from them.
+
+Pretty much an Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely “flat” `data.frame`-like structure
 from ndjson records in plain text ndjson files or gzip’d ndjson files.
@@ -129,128 +151,130 @@ There are no current plans for a `stream_out()` function since
 `jsonlite::stream_out()` does a great job tossing `data.frame`-like
 structures out to an ndjson file.
 
+## What’s Inside The Tin
+
+The following functions are implemented:
+
+  - `flatten`: Flatten a character vector of individual JSON lines into
+    a data.table
+  - `stream_in`: Stream in & flatten an ndjson file into a data.table
+  - `validate`: Validate ndjson file
+
 ## Installation
 
 ``` r
-devtools::install_gitlab("hrbrmstr/ndjson")
+install.packages("ndjson", repos = "https://cinc.rud.is")
+# or
+remotes::install_git("https://git.rud.is/hrbrmstr/ndjson.git")
+# or
+remotes::install_git("https://git.sr.ht/~hrbrmstr/ndjson")
+# or
+remotes::install_gitlab("hrbrmstr/ndjson")
+# or
+remotes::install_bitbucket("hrbrmstr/ndjson")
+# or
+remotes::install_github("hrbrmstr/ndjson")
 ```
+
+NOTE: To use the ‘remotes’ install options you will need to have the
+[{remotes} package](https://github.com/r-lib/remotes) installed.
 
 ## Usage
 
 ``` r
 library(ndjson)
-library(dplyr) # for glimpse()
-library(microbenchmark)
 
 # current version
 packageVersion("ndjson")
+## [1] '0.8.0.9000'
 ```
 
-    ## [1] '0.8.0.9000'
+## Usage
 
 ``` r
+library(microbenchmark)
+
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
-```
+##    more top.another top.next.end top.next.final
+## 1:   no         yes         TRUE              1
 
-    ##    more top.another top.next.end top.next.final
-    ## 1:   no         yes         TRUE              1
-
-``` r
 f <- system.file("extdata", "test.json", package="ndjson")
 gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 
-glimpse(ndjson::stream_in(f))
-```
+dplyr::glimpse(ndjson::stream_in(f))
+## Observations: 100
+## Variables: 8
+## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
+## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
+## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
+## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
+## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
+## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
+## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
+dplyr::glimpse(ndjson::stream_in(gzf))
+## Observations: 100
+## Variables: 8
+## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
+## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
+## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
+## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
+## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
+## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
+## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
 
-    ## Observations: 100
-    ## Variables: 8
-    ## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
-    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
-    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
-    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
-    ## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
-    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
-    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
+dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
+## Observations: 100
+## Variables: 7
+## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
+## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
+## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
+## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
+## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
+## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
+## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
+dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
+## Observations: 100
+## Variables: 7
+## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
+## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
+## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
+## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
+## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
+## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
+## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
 
-``` r
-glimpse(ndjson::stream_in(gzf))
-```
-
-    ## Observations: 100
-    ## Variables: 8
-    ## $ args                      <int> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
-    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
-    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
-    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
-    ## $ id                        <dbl> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
-    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
-    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
-
-``` r
-glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
-```
-
-    ## Observations: 100
-    ## Variables: 7
-    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
-    ## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
-    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
-    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
-    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
-    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
-    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
-
-``` r
-glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
-```
-
-    ## Observations: 100
-    ## Variables: 7
-    ## $ url                       <chr> "http://httpbin.org/stream/100", "http://httpbin.org/stream/100", "http://httpbin.o…
-    ## $ id                        <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 2…
-    ## $ origin                    <chr> "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22", "50.252.233.22"…
-    ## $ headers.Host              <chr> "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin.org", "httpbin…
-    ## $ `headers.Accept-Encoding` <chr> "identity", "identity", "identity", "identity", "identity", "identity", "identity",…
-    ## $ headers.Accept            <chr> "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*", "*/*",…
-    ## $ `headers.User-Agent`      <chr> "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)", "Wget/1.18 (darwin15.5.0)",…
-
-``` r
 microbenchmark(
     ndjson = { ndjson::stream_in(f) },
   jsonlite = { jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
 )
-```
+## Unit: milliseconds
+##      expr      min       lq     mean   median       uq      max neval cld
+##    ndjson 2.484437 2.577730 2.629168 2.619706 2.662832 3.010097   100  a 
+##  jsonlite 4.163929 4.286978 4.463872 4.359126 4.602030 7.945996   100   b
 
-    ## Unit: microseconds
-    ##      expr      min       lq      mean    median       uq      max neval
-    ##    ndjson  771.020  793.538  859.4169  811.7045  849.264 2690.986   100
-    ##  jsonlite 1813.497 1856.171 1994.1377 1885.5590 2100.324 3880.118   100
-
-``` r
 microbenchmark(
     ndjson = { ndjson::stream_in(gzf) },
   jsonlite = { jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
 )
+## Unit: milliseconds
+##      expr      min       lq     mean   median       uq      max neval cld
+##    ndjson 2.171794 2.252489 2.296104 2.291674 2.331800 2.648167   100  a 
+##  jsonlite 3.394873 3.524653 3.593871 3.578988 3.646918 3.904865   100   b
 ```
-
-    ## Unit: microseconds
-    ##      expr      min       lq      mean   median        uq      max neval
-    ##    ndjson  820.305  832.089  878.8793  851.292  874.7915 1451.010   100
-    ##  jsonlite 1786.219 1800.926 1944.4390 1825.675 1968.5375 4057.697   100
 
 ## ndjson Metrics
 
 | Lang         | \# Files |  (%) | LoC |  (%) | Blank lines |  (%) | \# Lines |  (%) |
 | :----------- | -------: | ---: | --: | ---: | ----------: | ---: | -------: | ---: |
-| C++          |        3 | 0.33 | 338 | 0.74 |         105 | 0.63 |       55 | 0.22 |
-| C/C++ Header |        1 | 0.11 |  66 | 0.15 |          15 | 0.09 |       40 | 0.16 |
-| R            |        4 | 0.44 |  28 | 0.06 |           6 | 0.04 |       57 | 0.23 |
-| Rmd          |        1 | 0.11 |  22 | 0.05 |          40 | 0.24 |       99 | 0.39 |
+| C++          |        3 | 0.33 | 338 | 0.74 |         105 | 0.62 |       55 | 0.21 |
+| C/C++ Header |        1 | 0.11 |  66 | 0.14 |          15 | 0.09 |       40 | 0.16 |
+| R            |        4 | 0.44 |  28 | 0.06 |           6 | 0.04 |       57 | 0.22 |
+| Rmd          |        1 | 0.11 |  24 | 0.05 |          43 | 0.25 |      104 | 0.41 |
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+Please note that this project is released with a Contributor Code of
+Conduct. By participating in this project you agree to abide by its
+terms.

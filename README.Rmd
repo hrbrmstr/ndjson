@@ -1,17 +1,19 @@
 ---
 output: rmarkdown::github_document
 ---
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ndjson.svg)](https://travis-ci.org/hrbrmstr/ndjson) 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/ndjson)](https://cran.r-project.org/package=ndjson)  ![downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndjson) 
-[![codecov](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
+```{r pkg-knitr-opts, include=FALSE}
+hrbrpkghelpr::global_opts()
+```
 
-# ndjson
+```{r badges, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::stinking_badges()
+```
 
-Wicked-fast Streaming JSON ('ndjson') Reader
+```{r description, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::yank_title_and_description()
+```
 
-## Description 
-
-Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
+Pretty much an Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
 
@@ -107,36 +109,44 @@ The following functions are implemented:
 
 There are no current plans for a `stream_out()` function since `jsonlite::stream_out()` does a great job tossing `data.frame`-like structures out to an ndjson file.
 
-## Installation
+## What's Inside The Tin
 
-```{r eval=FALSE}
-devtools::install_gitlab("hrbrmstr/ndjson")
+The following functions are implemented:
+
+```{r ingredients, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::describe_ingredients()
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
-options(width=120)
+## Installation
+
+```{r install-ex, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::install_block()
 ```
 
 ## Usage
 
-```{r message=FALSE}
+```{r vers, message=FALSE, warning=FALSE, error=FALSE, cache=FALSE}
 library(ndjson)
-library(dplyr) # for glimpse()
-library(microbenchmark)
 
 # current version
 packageVersion("ndjson")
+```
+
+## Usage
+
+```{r ex1}
+library(microbenchmark)
 
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 
 f <- system.file("extdata", "test.json", package="ndjson")
 gzf <- system.file("extdata", "testgz.json.gz", package="ndjson")
 
-glimpse(ndjson::stream_in(f))
-glimpse(ndjson::stream_in(gzf))
+dplyr::glimpse(ndjson::stream_in(f))
+dplyr::glimpse(ndjson::stream_in(gzf))
 
-glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
-glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
+dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
 
 microbenchmark(
     ndjson = { ndjson::stream_in(f) },
@@ -152,10 +162,10 @@ microbenchmark(
 
 ## ndjson Metrics
 
-```{r echo=FALSE}
+```{r cloc, echo=FALSE}
 cloc::cloc_pkg_md()
 ```
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.

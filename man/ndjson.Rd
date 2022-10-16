@@ -3,11 +3,7 @@
 \docType{package}
 \name{ndjson}
 \alias{ndjson}
-\alias{ndjson-package}
 \title{Wicked-fast Streaming JSON ('ndjson) Reader}
-\description{
-Wicked-fast Streaming JSON ('ndjson) Reader
-}
 \author{
 Bob Rudis (bob@rud.is)
 }

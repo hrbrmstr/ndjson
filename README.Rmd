@@ -13,7 +13,7 @@ hrbrpkghelpr::stinking_badges()
 hrbrpkghelpr::yank_title_and_description()
 ```
 
-Pretty much an Rcpp/C++14 wrapper for <https://github.com/nlohmann/json>
+Pretty much an Rcpp/C++17 wrapper for <https://github.com/nlohmann/json>
 
 The goal is to create a completely "flat" `data.frame`-like structure from ndjson records in plain text ndjson files or gzip'd ndjson files.
 
@@ -135,8 +135,6 @@ packageVersion("ndjson")
 ## Usage
 
 ```{r ex1}
-library(microbenchmark)
-
 flatten('{"top":{"next":{"final":1,"end":true},"another":"yes"},"more":"no"}')
 
 f <- system.file("extdata", "test.json", package="ndjson")
@@ -147,17 +145,6 @@ dplyr::glimpse(ndjson::stream_in(gzf))
 
 dplyr::glimpse(jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE))
 dplyr::glimpse(jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE))
-
-microbenchmark(
-    ndjson = { ndjson::stream_in(f) },
-  jsonlite = { jsonlite::stream_in(file(f), flatten=TRUE, verbose=FALSE) }
-)
-
-microbenchmark(
-    ndjson = { ndjson::stream_in(gzf) },
-  jsonlite = { jsonlite::stream_in(gzfile(gzf), flatten=TRUE, verbose=FALSE) }
-)
-
 ```
 
 ## ndjson Metrics

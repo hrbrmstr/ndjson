@@ -2,14 +2,9 @@
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Signed
-by](https://img.shields.io/badge/Keybase-Verified-brightgreen.svg)](https://keybase.io/hrbrmstr)
 ![Signed commit
-%](https://img.shields.io/badge/Signed_Commits-0%25-lightgrey.svg)
-[![Linux build
-Status](https://travis-ci.org/hrbrmstr/ndjson.svg?branch=master)](https://travis-ci.org/hrbrmstr/ndjson)
-[![Coverage
-Status](https://codecov.io/gh/hrbrmstr/ndjson/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/ndjson)
+%](https://img.shields.io/badge/Signed_Commits-100%25-lightgrey.svg)
+
 [![cran
 checks](https://cranchecks.info/badges/worst/ndjson)](https://cranchecks.info/pkgs/ndjson)
 [![CRAN

@@ -21,7 +21,7 @@ Description: Streaming 'JSON' ('ndjson') has one 'JSON' record per-line
         'ndjson' files or compressed ('gz') 'ndjson' files and either
         validate the format of the records or create "flat" 'data.table'
         structures from them.
-URL: http://github.com/hrbrmstr/ndjson
+URL: https://github.com/hrbrmstr/ndjson
 BugReports: https://github.com/hrbrmstr/ndjson/issues
 SystemRequirements: zlib, C++17
 NeedsCompilation: yes
